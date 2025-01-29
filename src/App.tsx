@@ -3,24 +3,29 @@ import { Search } from './components/search/Search';
 import { requestCharacters } from './api/request';
 import { SearchResults } from './components/results/Results';
 import { ErrorComponent } from './components/ErrorComponent';
-import { TCharacter } from './api/types';
+import type { TCharacter } from './api/types';
+import Loader from './components/loader/loader';
 import Storage from './utils/storage';
 
 const storage = new Storage();
 
+const defaultMessage = '( search by name and description )';
+const pageSize = 10;
+
 type TState = {
   query: string;
-  status?: string;
+  message?: string;
   error?: string;
   total: number;
   data: TCharacter[];
+  loading?: boolean;
   throwError: boolean;
 };
 
 class App extends React.Component {
   state: TState = {
     query: '',
-    status: '',
+    message: defaultMessage,
     total: 0,
     data: [],
     throwError: false,
@@ -31,13 +36,19 @@ class App extends React.Component {
   }
 
   private requestData = (query?: string) => {
-    requestCharacters({ query }).then(({ data, meta, error, status }) => {
-      if (error) {
-        this.setState(() => ({ error: `${status}:${error.message}`, status: '' }));
-      } else {
-        this.setState(() => ({ data, total: meta?.pagination.total, status: '' }));
-      }
-    });
+    const message = query ? `Searching for "${query}"...` : 'Requesting data...';
+    this.setState((prev) => ({ ...prev, loading: true, message }));
+    requestCharacters({ query, pageSize })
+      .then(({ data, meta, error, status }) => {
+        if (error) {
+          this.setState(() => ({ error: `${status}: ${error.message}` }));
+        } else {
+          this.setState(() => ({ data, total: meta?.pagination.total }));
+        }
+      })
+      .finally(() => {
+        this.setState((prev) => ({ ...prev, loading: false, message: defaultMessage }));
+      });
   };
 
   componentDidMount(): void {
@@ -46,9 +57,8 @@ class App extends React.Component {
     this.requestData(lastSearch);
   }
 
-  public updateState = (query: string) => {
-    const status = query ? `Searching for "${query}"...` : 'Requesting data...';
-    this.setState((prev) => ({ ...prev, status, query }));
+  private updateState = (query: string) => {
+    this.setState((prev) => ({ ...prev, query }));
     this.requestData(query);
   };
 
@@ -57,14 +67,18 @@ class App extends React.Component {
       <>
         <div>
           <Search callback={this.updateState} />
-          <p style={{ textAlign: 'center' }}>(search by name and description)</p>
+          <p style={{ textAlign: 'center' }}>{this.state.message}</p>
         </div>
-        <div>
-          {this.state.status && <p>{this.state.status}</p>}
-          <p>{this.state.total ? `Total: ${this.state.total}. Page: 1` : `Nothing found for "${this.state.query}"`}</p>
+        <div style={{ position: 'relative', lineHeight: '1.5', height: '15lh' }}>
+          <p>
+            {this.state.total
+              ? `Total: ${this.state.total}. Page: 1 of ${Math.ceil(this.state.total / pageSize)}.`
+              : `Nothing found for "${this.state.query}".`}
+          </p>
           <SearchResults results={this.state.data} />
+          {this.state.loading && <Loader />}
         </div>
-        <div className="align_center" style={{ marginTop: '2rem' }}>
+        <div className="align_center">
           <button
             onClick={() => {
               this.setState((prev) => ({ ...prev, throwError: true }));
@@ -72,7 +86,7 @@ class App extends React.Component {
             Throw Error
           </button>
         </div>
-        {this.state.throwError ? <ErrorComponent /> : null}
+        {this.state.throwError && <ErrorComponent />}
       </>
     );
   }
