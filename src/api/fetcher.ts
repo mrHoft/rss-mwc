@@ -33,8 +33,7 @@ class Fetcher {
         return data as TResponse<T>;
       })
       .catch((error) => ({
-        error: { message: error instanceof Error ? error.message : info.error, name: error instanceof Error ? error.name : info.error },
-        status: info.status,
+        error: { message: error instanceof Error ? error.message : info.error, name: error instanceof Error ? error.name : info.error, status: info.status },
       }));
   }
 

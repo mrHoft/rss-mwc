@@ -39,11 +39,11 @@ class App extends React.Component {
     const message = query ? `Searching for "${query}"...` : 'Requesting data...';
     this.setState((prev) => ({ ...prev, loading: true, message }));
     requestCharacters({ query, pageSize })
-      .then(({ data, meta, error, status }) => {
+      .then(({ data, meta, error }) => {
         if (error) {
-          this.setState(() => ({ error: `${status}: ${error.message}` }));
+          this.setState(() => ({ error: `${error.status}: ${error.message}` }));
         } else {
-          this.setState(() => ({ data, total: meta?.pagination.total }));
+          this.setState(() => ({ data, total: meta?.pagination.total, error: undefined }));
         }
       })
       .finally(() => {
@@ -67,6 +67,10 @@ class App extends React.Component {
   };
 
   render() {
+    const results = this.state.total
+      ? `Total: ${this.state.total}. Page: 1 of ${Math.ceil(this.state.total / pageSize)}.`
+      : `Nothing found for "${this.state.query}".`;
+
     return (
       <>
         <div>
@@ -74,11 +78,7 @@ class App extends React.Component {
           <p style={{ textAlign: 'center' }}>{this.state.message}</p>
         </div>
         <div style={{ position: 'relative', lineHeight: '1.5', height: '15lh' }}>
-          <p>
-            {this.state.total
-              ? `Total: ${this.state.total}. Page: 1 of ${Math.ceil(this.state.total / pageSize)}.`
-              : `Nothing found for "${this.state.query}".`}
-          </p>
+          <p>{this.state.error ?? results}</p>
           <SearchResults results={this.state.data} />
           {this.state.loading && <Loader />}
         </div>

@@ -33,6 +33,5 @@ export type TMeta = {
 export type TResponse<T> = {
   data?: T[];
   meta?: TMeta;
-  error?: { message: string; name: string };
-  status?: number;
+  error?: { message: string; name: string; status: number };
 };

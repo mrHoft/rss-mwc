@@ -39,9 +39,7 @@ export class Search extends React.Component<SearchProps, SearchState> {
     event.preventDefault();
     const form = new FormData(event.target as HTMLFormElement);
     const value = String(form.get('request'));
-    if (value) {
-      storage.set('lastSearch', value);
-    }
+    storage.set('lastSearch', value);
     this.state.callback(value);
   };
 
