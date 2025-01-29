@@ -134,4 +134,17 @@
 
 .search__button {
   border-radius: 8px 50px 50px 8px;
+  border: 2px solid var(--color40);
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: var(--color20);
+  cursor: pointer;
+  transition:
+    background-color 0.25s linear,
+    border-color 0.25s linear;
+
+  &:hover {
+    background-color: var(--color30);
+    border-color: var(--color50);
+  }
 }

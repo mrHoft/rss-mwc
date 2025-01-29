@@ -62,6 +62,10 @@ class App extends React.Component {
     this.requestData(query);
   };
 
+  private handleThrowError = () => {
+    this.setState((prev) => ({ ...prev, throwError: true }));
+  };
+
   render() {
     return (
       <>
@@ -79,10 +83,7 @@ class App extends React.Component {
           {this.state.loading && <Loader />}
         </div>
         <div className="align_center">
-          <button
-            onClick={() => {
-              this.setState((prev) => ({ ...prev, throwError: true }));
-            }}>
+          <button className="button" onClick={this.handleThrowError}>
             Throw Error
           </button>
         </div>

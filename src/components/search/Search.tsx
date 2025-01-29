@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './.module.css';
 import Storage from '~/utils/storage';
+
+import styles from './search.module.css';
+
 const storage = new Storage();
 
 interface SearchProps {
