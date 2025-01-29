@@ -1,21 +1,18 @@
 import React from 'react';
-// import { resultFields } from '../../constants/resultFields';
 import { TCharacter } from '../../api/types';
 
-interface Props {
+interface ResultsProps {
   results: TCharacter[];
 }
 
-export class SearchResults extends React.Component<Props, Props> {
-  constructor(props: Props) {
+export class SearchResults extends React.Component<ResultsProps, ResultsProps> {
+  constructor(props: ResultsProps) {
     super(props);
     if (props.results) this.state = { results: props.results };
   }
 
-  static getDerivedStateFromProps(props: Props) {
-    console.log('DerivedState:');
-    console.log(props);
-    if (props.results.length) return props;
+  static getDerivedStateFromProps(props: ResultsProps) {
+    if (props.results) return props;
     return null;
   }
 

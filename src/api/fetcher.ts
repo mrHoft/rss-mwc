@@ -4,7 +4,7 @@ import type { TResponse } from './types';
 type TRequestProps = {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   url: string;
-  header?: { [key: string]: string };
+  header?: Record<string, string>;
   body?: string | FormData;
 };
 
@@ -14,7 +14,7 @@ class Fetcher {
       status: 500,
       error: 'Unknown',
     };
-    const headers: { [key: string]: string } = header || { 'Content-Type': 'application/json' };
+    const headers = header ?? { 'Content-Type': 'application/json' };
     headers.Authorization = `Bearer ${API_TOKEN}`;
 
     return fetch(`${API_URL}${url}`, { method, headers, body })

@@ -9,6 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "noImplicitAny": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    },
 
     /* Bundler mode */
     "moduleResolution": "Node",

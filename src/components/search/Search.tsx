@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './.module.css';
-import Store from '../../store/Store';
-
-const store = new Store();
+import Storage from '~/utils/storage';
+const storage = new Storage();
 
 interface SearchProps {
   callback: (query: string) => void;
@@ -20,56 +19,57 @@ export class Search extends React.Component<SearchProps, SearchState> {
   }
 
   componentDidMount(): void {
-    let lastSearch = store.get('lastSearch');
-    if (typeof lastSearch !== 'string') lastSearch = '';
-    else
-      this.setState((props) => {
-        return { ...props, value: lastSearch as string };
-      });
+    const lastSearch = storage.get<string>('lastSearch');
+    this.setState((prev) => ({ ...prev, value: lastSearch ?? '' }));
   }
 
-  private changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState((props) => {
       return { ...props, value: event.target.value };
     });
   };
 
-  private submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+  private handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.target.value = event.target.value.replaceAll(' ', '');
+  };
+
+  private handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.target as HTMLFormElement);
     const value = String(form.get('request'));
     if (value) {
-      store.set('lastSearch', value);
+      storage.set('lastSearch', value);
     }
     this.state.callback(value);
   };
 
   render() {
     return (
-      <>
-        <form onSubmit={this.submitHandler} className={styles.search__form}>
-          <div className={styles.search__field_static}>
-            <input
-              type="text"
-              name="request"
-              placeholder="Search"
-              autoFocus={true}
-              autoComplete="off"
-              className={styles.search__input_static}
-              value={this.state.value}
-              onChange={this.changeHandler}
-            />
-            <div
-              className={styles.search__clear_static}
-              onClick={() =>
-                this.setState((props) => {
-                  return { ...props, value: '' };
-                })
-              }></div>
-          </div>
-          <button className={styles.search__button}>Start search</button>
-        </form>
-      </>
+      <form onSubmit={this.handleSubmit} className={styles.search}>
+        <div className={styles.search__field_static}>
+          <input
+            type="text"
+            name="request"
+            placeholder="Search word"
+            autoFocus={true}
+            autoComplete="off"
+            className={styles.search__input_static}
+            value={this.state.value}
+            onChange={this.handleChange}
+            onInput={this.handleInput}
+          />
+          <div
+            className={styles.search__clear_static}
+            onClick={() =>
+              this.setState((props) => {
+                return { ...props, value: '' };
+              })
+            }></div>
+        </div>
+        <button type="submit" className={styles.search__button}>
+          Search
+        </button>
+      </form>
     );
   }
 }

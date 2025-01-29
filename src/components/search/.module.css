@@ -1,9 +1,8 @@
-.search__form {
+.search {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  row-gap: 1rem;
+  column-gap: 0.5rem;
 }
 
 .search__field {
@@ -11,25 +10,31 @@
   margin: 0.5rem 1rem 0.5rem auto;
   width: 8rem;
   border-radius: 50px;
-  border: 2px solid black;
+  border: 2px solid var(--color50);
+  background-color: var(--color20);
   position: relative;
-  transition: width 0.3s linear;
+  transition:
+    background-color 0.25s linear,
+    width 0.25s linear;
 
-  &:has(input[name='request']:focus) {
+  &:has(input:focus) {
     width: 16rem;
-    background-color: black;
+    background-color: var(--color30);
   }
 }
 
 .search__field_static {
   text-align: left;
   width: 16rem;
-  border-radius: 50px;
-  border: 2px solid black;
+  border-radius: 50px 8px 8px 50px;
+  border: 2px solid var(--color40);
+  background-color: var(--color20);
   position: relative;
+  transition: background-color 0.25s linear;
 
-  &:has(input[name='request']:focus) {
-    background-color: black;
+  &:has(input:focus),
+  &:hover {
+    background-color: var(--color30);
   }
 }
 
@@ -60,17 +65,16 @@
   background-color: transparent;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  color: #fff;
+  color: var(--color100);
   width: 4rem;
   border-radius: 50px;
   border: none;
   transition: width 0.3s linear;
   &::placeholder {
-    color: gray;
+    color: var(--color50);
   }
   &:focus {
     width: 12rem;
-    outline: none;
   }
 }
 
@@ -78,16 +82,13 @@
   background-color: transparent;
   font-size: 1rem;
   padding: 0.5rem 1rem;
-  color: #fff;
+  color: var(--color100);
   width: 12rem;
   border-radius: 50px;
   border: none;
   transition: width 0.3s linear;
   &::placeholder {
-    color: #7378c5;
-  }
-  &:focus {
-    outline: none;
+    color: var(--color50);
   }
 }
 
@@ -105,9 +106,7 @@
   border: none;
   cursor: pointer;
   transition: opacity 0.3s linear;
-  &:focus {
-    border: none;
-  }
+  filter: invert(var(--color-scheme));
   &:hover {
     opacity: 0.65;
   }
@@ -127,26 +126,12 @@
   border: none;
   cursor: pointer;
   transition: opacity 0.3s linear;
-  &:focus {
-    border: none;
-  }
+  filter: invert(var(--color-scheme));
   &:hover {
     opacity: 0.65;
   }
 }
 
 .search__button {
-  width: 16rem;
-  border-radius: 50px;
-  border: 2px solid black;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  &:hover {
-    background-color: black;
-    border-color: black;
-  }
-  &:focus {
-    border-color: black;
-    outline: 0 !important;
-  }
+  border-radius: 8px 50px 50px 8px;
 }

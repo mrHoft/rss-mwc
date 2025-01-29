@@ -1,15 +1,15 @@
 import { Component, ReactNode } from 'react';
 
-interface Props {
+interface BoundaryProps {
   children: ReactNode;
 }
 
-interface State {
+interface BoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
+export class ErrorBoundary extends Component<BoundaryProps, BoundaryState> {
+  constructor(props: BoundaryProps) {
     super(props);
     this.state = {
       error: null,
@@ -27,6 +27,9 @@ export class ErrorBoundary extends Component<Props, State> {
         <div>
           <h2>Seems like an error occured!</h2>
           <details style={{ whiteSpace: 'pre-wrap' }}>{this.state.error.toString()}</details>
+          <div className="align_center" style={{ marginTop: '2rem' }}>
+            <button onClick={() => this.setState({ error: null })}>Try again</button>
+          </div>
         </div>
       );
     }
