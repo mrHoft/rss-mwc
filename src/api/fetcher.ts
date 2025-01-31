@@ -1,5 +1,6 @@
-import { API_URL, API_TOKEN } from './const';
 import type { TResponse } from './types';
+
+const { VITE_API_URL, VITE_API_TOKEN } = import.meta.env;
 
 type TRequestProps = {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -15,9 +16,9 @@ class Fetcher {
       error: 'Unknown',
     };
     const headers = header ?? { 'Content-Type': 'application/json' };
-    headers.Authorization = `Bearer ${API_TOKEN}`;
+    headers.Authorization = `Bearer ${VITE_API_TOKEN}`;
 
-    return fetch(`${API_URL}${url}`, { method, headers, body })
+    return fetch(`${VITE_API_URL}/api${url}`, { method, headers, body })
       .then((response) => {
         info.status = response.status;
         if (Math.floor(response.status / 100) !== 2) {
@@ -38,6 +39,10 @@ class Fetcher {
   }
 
   public get = <T>(url: string): Promise<TResponse<T>> => {
+    if (!VITE_API_URL) {
+      return Promise.resolve({ error: { message: 'No API URL (.env must be defined)', name: 'No API URL', status: 500 } });
+    }
+
     return this.request<T>({ method: 'GET', url });
   };
 }

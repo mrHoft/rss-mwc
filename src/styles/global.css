@@ -1,3 +1,5 @@
+@import url('./frame.css');
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-synthesis: none;
@@ -125,4 +127,10 @@ input:focus:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.line-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

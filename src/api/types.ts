@@ -16,6 +16,7 @@ export type TCharacter = {
   occupation: string;
   gender: { title: string };
   species: { title: string };
+  desc: string;
   cover: TMedia & { id: number; formats: { thumbnail: TMedia } };
   createdAt: string;
   updatedAt: string;

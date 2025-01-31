@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 import App from './App.tsx';
-import './styles.css';
+import './styles/global.css';
 import { scribe } from './scribe.ts';
 
 console.log(scribe);

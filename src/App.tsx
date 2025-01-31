@@ -1,16 +1,19 @@
 import React from 'react';
-import { Search } from './components/search/Search';
+import Search from './components/search/Search';
 import { requestCharacters } from './api/request';
-import { SearchResults } from './components/results/Results';
-import { ErrorComponent } from './components/ErrorComponent';
+import SearchResults from './components/results/Results';
+import ErrorComponent from './components/ErrorComponent';
 import type { TCharacter } from './api/types';
 import Loader from './components/loader/loader';
 import Storage from './utils/storage';
+import Button from './components/button/Button';
+
+import styles from './app.module.css';
 
 const storage = new Storage();
 
 const defaultMessage = '( search by name and description )';
-const pageSize = 10;
+const pageSize = 6;
 
 type TState = {
   query: string;
@@ -77,15 +80,13 @@ class App extends React.Component {
           <Search callback={this.updateState} />
           <p style={{ textAlign: 'center' }}>{this.state.message}</p>
         </div>
-        <div style={{ position: 'relative', lineHeight: '1.5', height: '15lh' }}>
-          <p>{this.state.error ?? results}</p>
+        <div className={styles.page__results}>
+          <p style={{ textAlign: 'center' }}>{this.state.error ?? results}</p>
           <SearchResults results={this.state.data} />
           {this.state.loading && <Loader />}
         </div>
-        <div className="align_center">
-          <button className="button" onClick={this.handleThrowError}>
-            Throw Error
-          </button>
+        <div className={styles.page__btns}>
+          <Button onClick={this.handleThrowError}>Throw Error</Button>
         </div>
         {this.state.throwError && <ErrorComponent />}
       </>

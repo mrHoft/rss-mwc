@@ -14,7 +14,7 @@ interface SearchState {
   value: string;
 }
 
-export class Search extends React.Component<SearchProps, SearchState> {
+export default class Search extends React.Component<SearchProps, SearchState> {
   constructor(props: SearchProps) {
     super(props);
     this.state = { ...props, value: '' };
