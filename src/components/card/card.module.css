@@ -1,9 +1,6 @@
 .card {
-  max-width: 30rem;
+  max-width: 30em;
   pointer-events: none;
-}
-.card_small {
-  width: 14rem;
 }
 
 .card__cover {
@@ -15,7 +12,7 @@
 .card__info {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 0.5rem;
+  column-gap: 0.5em;
 }
 
 .card__desc {

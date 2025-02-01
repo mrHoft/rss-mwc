@@ -60,6 +60,12 @@ body {
   background-color: var(--color00);
 }
 
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+}
+
 #root {
   display: flex;
   flex-direction: column;
@@ -69,6 +75,11 @@ body {
 
 .main {
   padding: 1rem;
+  box-sizing: border-box;
+  width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: calc(min(100%, 46rem));
 }
 
 h1 {

@@ -1,6 +1,11 @@
 .page__error {
+  width: 24em;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.page__error img {
+  width: 100%;
 }

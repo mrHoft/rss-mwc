@@ -25,7 +25,6 @@
 
 .search__field_static {
   text-align: left;
-  width: 16rem;
   border-radius: 50px 8px 8px 50px;
   border: 2px solid var(--color40);
   background-color: var(--color20);
@@ -53,6 +52,7 @@
   border: none;
   cursor: pointer;
   transition: opacity 0.3s linear;
+
   &:focus {
     border: none;
   }
@@ -70,6 +70,7 @@
   border-radius: 50px;
   border: none;
   transition: width 0.3s linear;
+
   &::placeholder {
     color: var(--color50);
   }
@@ -87,6 +88,7 @@
   border-radius: 50px;
   border: none;
   transition: width 0.3s linear;
+
   &::placeholder {
     color: var(--color50);
   }
@@ -107,6 +109,7 @@
   cursor: pointer;
   transition: opacity 0.3s linear;
   filter: invert(var(--color-scheme));
+
   &:hover {
     opacity: 0.65;
   }
@@ -127,6 +130,7 @@
   cursor: pointer;
   transition: opacity 0.3s linear;
   filter: invert(var(--color-scheme));
+
   &:hover {
     opacity: 0.65;
   }
