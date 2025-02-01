@@ -1,6 +1,8 @@
 import { Component, ReactNode } from 'react';
 import Button from '../button/Button';
 
+import styles from './boundary.module.css';
+
 interface BoundaryProps {
   children: ReactNode;
 }
@@ -24,9 +26,12 @@ export class ErrorBoundary extends Component<BoundaryProps, BoundaryState> {
   render() {
     if (this.state.error) {
       return (
-        <div>
-          <h2>Seems like an error occured!</h2>
-          <details style={{ whiteSpace: 'pre-wrap' }}>{this.state.error.toString()}</details>
+        <div className={styles.page__error}>
+          <div className="frame">
+            <img src="/images/dolls.png" alt="error" />
+            <h2>Seems like an error occured!</h2>
+            <details style={{ whiteSpace: 'pre-wrap' }}>{this.state.error.toString()}</details>
+          </div>
           <div className="align_center" style={{ marginTop: '2rem' }}>
             <Button onClick={() => this.setState({ error: null })}>Try again</Button>
           </div>

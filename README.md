@@ -1,4 +1,6 @@
-# React w1 (components) task
+### About
+
+RSS React course educational project. Inspirated by [Mystery Ben's](https://mysterybensmysteryblog.tumblr.com/) arts.
 
 <div align="center">
 
@@ -12,7 +14,7 @@
 
 </div>
 
-### Rules:
+### React w1 (components) task rules:
 
 - Eslint is set up, when _lint_ command is run it doesn't produce any errors (if there are warnings score might be less).
 - Prettier is set up, _format:fix_ command fixes issues.

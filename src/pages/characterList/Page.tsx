@@ -82,7 +82,7 @@ export default class CharactersList extends React.Component {
           <div style={{ textAlign: 'center' }}>{this.state.error ?? results}</div>
         </section>
         <section className={styles.page__section} aria-label="results">
-          <SearchResults results={this.state.data} />
+          <SearchResults results={this.state.data} loading={this.state.loading} />
           {this.state.loading && <Loader />}
         </section>
         <div className={styles.page__btns}>

@@ -6,6 +6,7 @@ import styles from './results.module.css';
 
 interface ResultsProps {
   results: TCharacter[];
+  loading?: boolean;
 }
 
 export default class SearchResults extends React.Component<ResultsProps, ResultsProps> {
@@ -20,7 +21,9 @@ export default class SearchResults extends React.Component<ResultsProps, Results
   }
 
   render(): React.ReactNode {
-    if (!this.state.results.length) return null;
+    if (!this.state.results.length && !this.state.loading) {
+      return <img src="/images/nothing.png" alt="nothing" />;
+    }
 
     return (
       <div className={styles.cards}>

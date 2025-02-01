@@ -48,11 +48,13 @@ export class CardCharacter extends React.Component<CardCharacterProps, CardChara
           <span>Occupation:</span>
           <span className="line-overflow">{occupation}</span>
         </div>
-        <div className={styles.card__desc}>
-          {desc.split('\n').map((line, i) => (
-            <p key={i}>{line}</p>
-          ))}
-        </div>
+        {desc && (
+          <div className={styles.card__desc}>
+            {desc.split('\n').map((line, i) => (
+              <p key={i}>{line}</p>
+            ))}
+          </div>
+        )}
       </a>
     );
   }
