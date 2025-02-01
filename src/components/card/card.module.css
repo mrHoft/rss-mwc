@@ -12,6 +12,12 @@
   object-fit: contain;
 }
 
+.card__info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.5rem;
+}
+
 .card__desc {
   overflow: hidden;
   margin-bottom: 0;

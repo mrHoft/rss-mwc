@@ -71,15 +71,13 @@ export default class CharactersList extends React.Component {
 
   render() {
     const results = this.state.total
-      ? `Total: ${this.state.total}. Page: 1 of ${Math.ceil(this.state.total / pageSize)}.`
+      ? `Total: ${Math.min(pageSize, this.state.data.length)} of ${this.state.total}. Page: 1 of ${Math.ceil(this.state.total / pageSize)}.`
       : `Nothing found for "${this.state.query}".`;
 
     return (
       <>
-        <section className={styles.page__section} aria-label="search">
+        <section className={`${styles.page__section} frame`} aria-label="search">
           <Search callback={this.updateState} />
-        </section>
-        <section className={`${styles.page__section} frame`} aria-label="info">
           <div style={{ textAlign: 'center' }}>{this.state.message}</div>
           <div style={{ textAlign: 'center' }}>{this.state.error ?? results}</div>
         </section>

@@ -40,12 +40,14 @@ export class CardCharacter extends React.Component<CardCharacterProps, CardChara
       <a className={`${this.state.small ? styles.card_small : styles.card} frame`} href={`/character/${id}`} onClick={this.handleNavigate}>
         <img className={styles.card__cover} src={coverSrc} alt="cover" />
         <h3>{name}</h3>
-        <div className="line-overflow">
-          <span>Gender: </span>
+        <div className={styles.card__info}>
+          <span>Gender:</span>
           <i>{gender.title}</i>
+          <span>Species:</span>
+          <span>{species?.title}</span>
+          <span>Occupation:</span>
+          <span className="line-overflow">{occupation}</span>
         </div>
-        <div className="line-overflow">{`Species: ${species?.title}`}</div>
-        <div className="line-overflow">{`Occupation: ${occupation}`}</div>
         <div className={styles.card__desc}>
           {desc.split('\n').map((line, i) => (
             <p key={i}>{line}</p>
