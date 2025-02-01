@@ -1,12 +1,16 @@
 # React w1 (components) task
 
-### Stack:
+<div align="center">
 
-- Vite
-- React
-- ESLint
-- Prettier
-- Husky
+  [![deploy](https://github.com/mrHoft/rss-mwc/actions/workflows/deploy.yml/badge.svg)](https://rss-mwc.deno.dev/)
+
+  [![node](https://img.shields.io/badge/node-21-blue?logo=nodedotjs)](#)
+  [![vite](https://img.shields.io/badge/vite-4.4-blue?logo=vite)](#)
+  [![eslint](https://img.shields.io/badge/eslint-8.45-blue?logo=eslint)](#)
+  [![prettier](https://img.shields.io/badge/prettier-3.0-blue?logo=prettier)](#)
+  [![react](https://img.shields.io/badge/react-18.2-blue?logo=react)](#)
+
+</div>
 
 ### Rules:
 

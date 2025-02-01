@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import Button from './button/Button';
+import Button from '../button/Button';
 
 interface BoundaryProps {
   children: ReactNode;
