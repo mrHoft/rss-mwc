@@ -35,7 +35,7 @@ export function CardCharacter({ character, small }: CardCharacterProps) {
         <span>Occupation:</span>
         <span className="line-overflow">{occupation}</span>
       </div>
-      {desc && (
+      {desc && !small && (
         <div className={styles.card__desc}>
           {desc.split('\n').map((line, i) => (
             <p key={i}>{line}</p>
