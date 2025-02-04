@@ -1,8 +1,10 @@
 import React from 'react';
 import Header from './components/header/Header.tsx';
 import Backdop from './components/backdop/Backdop';
-import CharactersList from './pages/characterList/Page';
 import { ContextProvider } from './entities/context.tsx';
+import { Routes, Route } from 'react-router';
+import PageHome from './pages/home/Home.tsx';
+import Character from './pages/character/Character.tsx';
 
 const App: React.FC = () => {
   return (
@@ -10,7 +12,11 @@ const App: React.FC = () => {
       <Header />
       <main className="main">
         <Backdop />
-        <CharactersList />
+        <Routes>
+          <Route path="/" element={<PageHome />}>
+            <Route path="character/:id" element={<Character />} />
+          </Route>
+        </Routes>
       </main>
     </ContextProvider>
   );

@@ -5,8 +5,9 @@ import type { TCharacter } from '~/api/types';
 import Loader from '~/components/loader/Loader';
 import { Context } from '~/entities/context';
 import Pagination from '~/components/pagination/Pagination';
+import stateManager from '~/entities/state';
 
-import styles from '../page.module.css';
+import styles from './list.module.css';
 
 const pageSize = 6;
 
@@ -33,8 +34,9 @@ export default function CharactersList() {
       .then(({ data, meta, error }) => {
         if (error) {
           setState((prev) => ({ ...prev, error: `${error.status}: ${error.message}` }));
-        } else {
-          setState({ data: data ?? [], total: meta?.pagination.total ?? 0, error: undefined });
+        } else if (data) {
+          setState({ data, total: meta?.pagination.total ?? 0, error: undefined });
+          stateManager.characters = data;
         }
       })
       .finally(() => {
@@ -53,7 +55,7 @@ export default function CharactersList() {
   if (state.throwError) throw new Error('Errored!');
 
   return (
-    <section className={styles.page__section} aria-label="results">
+    <section className={styles.characters} aria-label="results">
       {state.error && <p>{state.error}</p>}
       <SearchResults results={state.data} loading={state.loading} />
       <Pagination page={page} pageSize={pageSize} total={state.total} onChange={setPage} />

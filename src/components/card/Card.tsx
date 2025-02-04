@@ -1,5 +1,6 @@
 import React from 'react';
-import { TCharacter } from '../../api/types';
+import { TCharacter } from '~/api/types';
+import { useNavigate } from 'react-router';
 
 import styles from './card.module.css';
 
@@ -12,17 +13,20 @@ interface CardCharacterProps {
 
 export function CardCharacter({ character, small }: CardCharacterProps) {
   const { id, name, gender, species, occupation, desc, cover } = character;
+  const navigate = useNavigate();
   const coverSrc = `${MEDIA_URL}${small ? cover.formats.thumbnail.url : cover.url}`;
 
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    if (!small) return;
-    console.log(character.id);
+    if (small) {
+      e.stopPropagation();
+      navigate(`/character/${character.id}`);
+    }
   };
 
   return (
     <a
-      className={`${small ? styles.card_small : styles.card} frame interactive`}
+      className={`${small ? styles.card_small : styles.card} frame ${small ? 'interactive' : ''}`}
       href={`/character/${id}`}
       onClick={handleNavigate}>
       <img className={styles.card__cover} src={coverSrc} alt="cover" />

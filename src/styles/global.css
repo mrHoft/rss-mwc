@@ -77,9 +77,10 @@ body {
   padding: 1rem;
   box-sizing: border-box;
   width: 100%;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: calc(min(100%, 46rem));
+  /* max-width: calc(min(100%, 46rem)); */
+  display: flex;
+  column-gap: 2rem;
+  justify-content: center;
 }
 
 h1 {
