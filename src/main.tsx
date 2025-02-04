@@ -9,14 +9,17 @@ import Backdop from './components/backdop/Backdop';
 
 console.log(scribe);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ErrorBoundary>
-      <Header />
-      <main className="main">
-        <Backdop />
-        <App />
-      </main>
-    </ErrorBoundary>
-  </React.StrictMode>
-);
+const root = document.getElementById('root');
+if (root) {
+  ReactDOM.createRoot(root).render(
+    <React.StrictMode>
+      <ErrorBoundary>
+        <Header />
+        <main className="main">
+          <Backdop />
+          <App />
+        </main>
+      </ErrorBoundary>
+    </React.StrictMode>
+  );
+}

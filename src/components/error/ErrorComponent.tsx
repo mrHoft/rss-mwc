@@ -1,5 +1,8 @@
-const ErrorComponent = () => {
-  throw new Error('Errored!');
-};
+import React from 'react';
 
-export default ErrorComponent;
+export default class ErrorComponent extends React.Component {
+  render() {
+    throw new Error('Errored!');
+    return null;
+  }
+}

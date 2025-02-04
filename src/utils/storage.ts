@@ -1,4 +1,4 @@
-type TIndexed = { [key in string]: unknown };
+type TIndexed = Record<string, unknown>;
 
 export default class Storage {
   protected static _instance: Storage;

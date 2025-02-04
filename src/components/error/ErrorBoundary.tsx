@@ -1,17 +1,17 @@
-import { Component, ReactNode } from 'react';
+import React from 'react';
 import Button from '../button/Button';
 
 import styles from './boundary.module.css';
 
 interface BoundaryProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 interface BoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<BoundaryProps, BoundaryState> {
+export class ErrorBoundary extends React.Component<BoundaryProps, BoundaryState> {
   constructor(props: BoundaryProps) {
     super(props);
     this.state = {
