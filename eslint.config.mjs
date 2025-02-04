@@ -34,8 +34,5 @@ export default [
       'react-hooks': fixupPluginRules(reactHooks),
       prettier,
     },
-    rules: {
-      '@typescript-eslint/consistent-type-definitions': 'off',
-    },
   },
 ];

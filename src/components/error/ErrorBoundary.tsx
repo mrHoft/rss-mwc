@@ -23,6 +23,10 @@ export class ErrorBoundary extends React.Component<BoundaryProps, BoundaryState>
     return { error };
   }
 
+  static componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('Uncaught error:', error, errorInfo);
+  }
+
   render() {
     if (this.state.error) {
       return (

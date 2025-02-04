@@ -2,15 +2,15 @@ import type { TResponse } from './types';
 
 const { VITE_API_URL, VITE_API_TOKEN } = import.meta.env;
 
-type TRequestProps = {
+interface RequestProps {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   url: string;
   header?: Record<string, string>;
   body?: string | FormData;
-};
+}
 
 class Fetcher {
-  private request<T>({ method, url, header, body }: TRequestProps): Promise<TResponse<T>> {
+  private request<T>({ method, url, header, body }: RequestProps): Promise<TResponse<T>> {
     const info: { status: number; error: string } = {
       status: 500,
       error: 'Unknown',

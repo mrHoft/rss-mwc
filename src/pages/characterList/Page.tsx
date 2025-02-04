@@ -15,7 +15,7 @@ const storage = new Storage();
 const defaultMessage = '( search by name and description )';
 const pageSize = 6;
 
-type TState = {
+interface CharactersListState {
   query: string;
   message?: string;
   error?: string;
@@ -23,10 +23,10 @@ type TState = {
   data: TCharacter[];
   loading?: boolean;
   throwError: boolean;
-};
+}
 
 export default class CharactersList extends React.Component {
-  state: TState = {
+  state: CharactersListState = {
     query: '',
     message: defaultMessage,
     total: 0,
