@@ -5,3 +5,9 @@
   justify-content: center;
   max-width: 46em;
 }
+
+.nothing {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+}

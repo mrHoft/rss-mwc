@@ -23,44 +23,6 @@
   }
 }
 
-.search__field_static {
-  text-align: left;
-  border-radius: 50px 8px 8px 50px;
-  border: 2px solid var(--color40);
-  background-color: var(--color20);
-  position: relative;
-  transition: background-color 0.25s linear;
-
-  &:has(input:focus),
-  &:hover {
-    background-color: var(--color30);
-  }
-}
-
-.search__submit {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  box-sizing: border-box;
-  width: 1.2rem;
-  height: 1.2rem;
-  background-image: url(/icons/search.svg);
-  background-color: transparent;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.3s linear;
-
-  &:focus {
-    border: none;
-  }
-  &:hover {
-    opacity: 0.65;
-  }
-}
-
 .search__input {
   background-color: transparent;
   font-size: 1rem;
@@ -79,32 +41,43 @@
   }
 }
 
-.search__input_static {
+.search__submit {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  box-sizing: border-box;
+  width: 1.2rem;
+  height: 1.2rem;
+  background-image: url(/icons/search.svg);
   background-color: transparent;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  color: var(--color100);
-  width: 12rem;
-  border-radius: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   border: none;
-  transition: width 0.3s linear;
+  cursor: pointer;
+  transition: opacity 0.3s linear;
+  filter: invert(var(--color-scheme));
 
-  &::placeholder {
-    color: var(--color50);
+  &:focus {
+    border: none;
+  }
+  &:hover {
+    opacity: 0.65;
   }
 }
 
 .search__clear {
   position: absolute;
-  top: 0.7125rem;
+  top: 0.5rem;
   right: 2rem;
   box-sizing: border-box;
-  width: 0.75rem;
-  height: 0.75rem;
+  width: 1.2rem;
+  height: 1.2rem;
   background-image: url(/icons/cross.svg);
   background-color: transparent;
   background-position: center;
-  background-size: contain;
+  background-size: 0.75rem 0.75rem;
+  background-repeat: no-repeat;
   border: none;
   cursor: pointer;
   transition: opacity 0.3s linear;
@@ -112,43 +85,5 @@
 
   &:hover {
     opacity: 0.65;
-  }
-}
-
-.search__clear_static {
-  position: absolute;
-  top: 0.7125rem;
-  right: 0.5rem;
-  box-sizing: border-box;
-  width: 0.75rem;
-  height: 0.75rem;
-  background-image: url(/icons/cross.svg);
-  background-color: transparent;
-  background-position: center;
-  background-size: contain;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.3s linear;
-  filter: invert(var(--color-scheme));
-
-  &:hover {
-    opacity: 0.65;
-  }
-}
-
-.search__button {
-  border-radius: 8px 50px 50px 8px;
-  border: 2px solid var(--color40);
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: var(--color20);
-  cursor: pointer;
-  transition:
-    background-color 0.25s linear,
-    border-color 0.25s linear;
-
-  &:hover {
-    background-color: var(--color30);
-    border-color: var(--color50);
   }
 }

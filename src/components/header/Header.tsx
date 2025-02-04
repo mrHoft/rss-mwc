@@ -1,14 +1,18 @@
 import React from 'react';
+import Search from '../search/Search';
 
 import styles from './header.module.css';
 
-export default class Header extends React.Component {
-  render() {
-    return (
-      <header className={styles.header}>
-        <img height="100" style={{ zIndex: 1 }} src="/images/logo.png" alt="logo" />
+const Header: React.FC = () => {
+  return (
+    <header className={styles.header}>
+      <div className={styles.header__logo}>
+        <img height="100" src="/images/logo.png" alt="logo" />
         <h3>Characters</h3>
-      </header>
-    );
-  }
-}
+      </div>
+      <Search />
+    </header>
+  );
+};
+
+export default Header;

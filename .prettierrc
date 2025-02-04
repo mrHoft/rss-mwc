@@ -3,7 +3,7 @@
   "semi": true,
   "arrowParens": "always",
   "bracketSameLine": true,
-  "printWidth": 160,
+  "printWidth": 120,
   "trailingComma": "es5",
   "tabWidth": 2,
   "endOfLine": "lf"

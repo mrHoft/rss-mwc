@@ -34,7 +34,7 @@
   }
 }
 
-.frame:hover {
+.frame.interactive:hover {
   color: var(--color100);
   background-color: var(--color20);
 

@@ -4,8 +4,6 @@ import { ErrorBoundary } from './components/error/ErrorBoundary.tsx';
 import App from './App.tsx';
 import './styles/global.css';
 import { scribe } from './scribe.ts';
-import Header from './components/header/Header.tsx';
-import Backdop from './components/backdop/Backdop';
 
 console.log(scribe);
 
@@ -14,11 +12,7 @@ if (root) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
       <ErrorBoundary>
-        <Header />
-        <main className="main">
-          <Backdop />
-          <App />
-        </main>
+        <App />
       </ErrorBoundary>
     </React.StrictMode>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Context } from '~/entities/context';
 import { TCharacter } from '~/api/types';
 import { CardCharacter } from '../card/Card';
 
@@ -9,32 +10,23 @@ interface ResultsProps {
   loading?: boolean;
 }
 
-export default class SearchResults extends React.Component<ResultsProps, ResultsProps> {
-  constructor(props: ResultsProps) {
-    super(props);
-    if (props.results) this.state = { results: props.results };
-  }
+export default function SearchResults({ results, loading }: ResultsProps) {
+  const { query } = React.useContext(Context);
 
-  static getDerivedStateFromProps(props: ResultsProps) {
-    if (props.results) return props;
-    return null;
-  }
-
-  render(): React.ReactNode {
-    if (!this.state.results.length && !this.state.loading) {
-      return (
-        <div className="align_center">
-          <img src="/images/nothing.png" alt="nothing" />
-        </div>
-      );
-    }
-
+  if (!results.length && !loading) {
     return (
-      <div className={styles.cards}>
-        {this.state.results.map((item) => (
-          <CardCharacter key={item.id} character={item} small />
-        ))}
+      <div className={`${styles.nothing} frame`}>
+        <p>{`Nothing found for "${query}".`}</p>
+        <img src="/images/nothing.png" alt="nothing" />
       </div>
     );
   }
+
+  return (
+    <div className={styles.cards}>
+      {results.map((item) => (
+        <CardCharacter key={item.id} character={item} small />
+      ))}
+    </div>
+  );
 }

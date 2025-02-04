@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styles from './button.module.css';
 
 interface ButtonProps {
@@ -7,12 +6,12 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export default class Button extends React.Component<ButtonProps> {
-  render() {
-    return (
-      <button type="button" className={styles.button} onClick={this.props.onClick}>
-        {this.props.children}
-      </button>
-    );
-  }
-}
+const Button: React.FC<ButtonProps> = ({ children, onClick }) => {
+  return (
+    <button type="button" className={styles.button} onClick={onClick}>
+      {children}
+    </button>
+  );
+};
+
+export default Button;
