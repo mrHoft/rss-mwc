@@ -1,0 +1,24 @@
+.card {
+  max-width: 30em;
+  pointer-events: none;
+}
+
+.card__cover {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.card__info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.5em;
+}
+
+.card__desc {
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.card_small .card__desc {
+  max-height: 4lh;
+}
