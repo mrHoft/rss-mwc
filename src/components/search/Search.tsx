@@ -23,6 +23,10 @@ export default function Search() {
     setSearch(value);
   };
 
+  React.useEffect(() => {
+    if (ref.current) ref.current.value = query ?? '';
+  }, [query]);
+
   return (
     <form onSubmit={handleSubmit} className={styles.search}>
       <div className={styles.search__field}>

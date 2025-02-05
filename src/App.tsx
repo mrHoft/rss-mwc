@@ -5,6 +5,7 @@ import { ContextProvider } from './entities/context.tsx';
 import { Routes, Route } from 'react-router';
 import PageHome from './pages/home/Home.tsx';
 import PageCharacter from './pages/character/Character.tsx';
+import Page404 from './pages/404/404.tsx';
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route path="/" element={<PageHome />}>
             <Route path="character/:id" element={<PageCharacter />} />
           </Route>
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </main>
     </ContextProvider>

@@ -7,7 +7,7 @@ import styles from './page.module.css';
 const PageHome: React.FC = () => (
   <>
     <CharactersList />
-    <section className={styles.selection} aria-label="selection">
+    <section className={styles.details} aria-label="details">
       <Outlet />
     </section>
   </>
