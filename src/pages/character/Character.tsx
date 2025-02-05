@@ -6,15 +6,13 @@ import { CardCharacter } from '~/components/card/Card';
 
 import styles from './character.module.css';
 
-const Character: React.FC = () => {
+const PageCharacter: React.FC = () => {
   const [character, setCharacter] = React.useState<TCharacter | null>(null);
   const ref = React.useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const handleClose = () => {
-    navigate('/');
-  };
+  const handleClose = () => navigate('/');
 
   React.useEffect(() => {
     const RequestedId = Number(id);
@@ -44,4 +42,4 @@ const Character: React.FC = () => {
   );
 };
 
-export default Character;
+export default PageCharacter;

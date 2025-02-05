@@ -4,7 +4,7 @@ import Backdop from './components/backdop/Backdop';
 import { ContextProvider } from './entities/context.tsx';
 import { Routes, Route } from 'react-router';
 import PageHome from './pages/home/Home.tsx';
-import Character from './pages/character/Character.tsx';
+import PageCharacter from './pages/character/Character.tsx';
 
 const App: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const App: React.FC = () => {
         <Backdop />
         <Routes>
           <Route path="/" element={<PageHome />}>
-            <Route path="character/:id" element={<Character />} />
+            <Route path="character/:id" element={<PageCharacter />} />
           </Route>
         </Routes>
       </main>

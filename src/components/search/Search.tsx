@@ -1,10 +1,7 @@
 import React from 'react';
-import Storage from '~/utils/storage';
 import { Context } from '~/entities/context';
 
 import styles from './search.module.css';
-
-const storage = new Storage();
 
 export default function Search() {
   const { query, setSearch } = React.useContext(Context);
@@ -17,14 +14,12 @@ export default function Search() {
   const handleClear = () => {
     if (ref.current) ref.current.value = '';
     setSearch('');
-    storage.set('lastSearch', '');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const value = String(form.get('request'));
-    storage.set('lastSearch', value);
+    const value = String(form.get('query'));
     setSearch(value);
   };
 
@@ -34,7 +29,7 @@ export default function Search() {
         <input
           ref={ref}
           type="text"
-          name="request"
+          name="query"
           placeholder="search"
           autoComplete="off"
           className={styles.search__input}

@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react';
+import { useNavigate, useSearchParams } from 'react-router';
 import { requestCharacters } from '~/api/request';
 import SearchResults from '~/components/results/Results';
 import type { TCharacter } from '~/api/types';
@@ -24,8 +25,10 @@ const initialState: CharactersListState = {
 };
 
 export default function CharactersList() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [state, setState] = React.useState<CharactersListState>(initialState);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState((Number(searchParams.get('page')) || 1) - 1);
   const { query } = useContext(Context);
 
   const requestData = () => {
@@ -44,6 +47,11 @@ export default function CharactersList() {
       });
   };
 
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    navigate(`/?${query ? `search=${query}&` : ''}page=${newPage + 1}`);
+  };
+
   useEffect(() => {
     setState((prev) => ({ ...prev, query }));
     setPage(0);
@@ -58,7 +66,7 @@ export default function CharactersList() {
     <section className={styles.characters} aria-label="results">
       {state.error && <p>{state.error}</p>}
       <SearchResults results={state.data} loading={state.loading} />
-      <Pagination page={page} pageSize={pageSize} total={state.total} onChange={setPage} />
+      <Pagination page={page} pageSize={pageSize} total={state.total} onChange={handlePageChange} />
       {state.loading && <Loader />}
     </section>
   );
