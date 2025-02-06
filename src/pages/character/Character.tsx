@@ -36,7 +36,7 @@ const PageCharacter: React.FC = () => {
 
   return (
     <div ref={ref} className={styles.character}>
-      <div className={styles.character__close} onClick={handleClose}></div>
+      <div className={styles.character__close} onClick={handleClose} data-testid="close"></div>
       <CardCharacter character={character} />
     </div>
   );

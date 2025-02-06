@@ -28,5 +28,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules", "dist", "coverage"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "types": ["@vitest/browser/providers/playwright"]
 }
