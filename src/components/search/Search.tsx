@@ -40,7 +40,7 @@ export default function Search() {
           defaultValue={query}
           onInput={handleInput}
         />
-        <div className={styles.search__clear} onClick={handleClear}></div>
+        <button type="button" className={styles.search__clear} onClick={handleClear} />
         <button type="submit" className={styles.search__submit} />
       </div>
     </form>

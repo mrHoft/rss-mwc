@@ -1,7 +1,7 @@
 import React from 'react';
 import { Context } from '~/entities/context';
 import { TCharacter } from '~/api/types';
-import { CardCharacter } from '../card/Card';
+import CardCharacter from '../card/Card';
 import Button from '~/components/button/Button';
 
 import styles from './results.module.css';

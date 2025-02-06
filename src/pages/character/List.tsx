@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
-import { requestCharacters } from '~/api/request';
+import apiRequest from '~/api/request';
 import SearchResults from '~/components/results/Results';
 import type { TCharacter } from '~/api/types';
 import Loader from '~/components/loader/Loader';
@@ -29,11 +29,12 @@ export default function CharactersList() {
   const [searchParams] = useSearchParams();
   const [state, setState] = React.useState<CharactersListState>(initialState);
   const [page, setPage] = React.useState((Number(searchParams.get('page')) || 1) - 1);
-  const { query } = useContext(Context);
+  const { query, setParams } = useContext(Context);
 
   const requestData = () => {
     setState((prev) => ({ ...prev, loading: true }));
-    requestCharacters({ query, page: page + 1, pageSize })
+    apiRequest
+      .characters({ query, page: page + 1, pageSize })
       .then(({ data, meta, error }) => {
         if (error) {
           setState((prev) => ({ ...prev, error: `${error.status}: ${error.message}` }));
@@ -49,7 +50,10 @@ export default function CharactersList() {
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
-    navigate(`/?${query ? `search=${query}&` : ''}page=${newPage + 1}`);
+    const params: Record<string, string> = { page: `${newPage + 1}` };
+    if (query) params['search'] = query;
+    setParams(params);
+    navigate(`/?${new URLSearchParams(params).toString()}`);
   };
 
   useEffect(() => {
@@ -59,6 +63,10 @@ export default function CharactersList() {
   }, [query]);
 
   useEffect(requestData, [page]);
+
+  useEffect(() => {
+    if (query) setParams({ search: query });
+  }, []);
 
   if (state.throwError) throw new Error('Errored!');
 

@@ -12,6 +12,7 @@ interface TMedia {
 
 export interface TCharacter {
   id: number;
+  documentId: string;
   name: string;
   occupation: string;
   gender: { title: string };
@@ -32,7 +33,7 @@ export interface TMeta {
 }
 
 export interface TResponse<T> {
-  data?: T[];
+  data?: T;
   meta?: TMeta;
   error?: { message: string; name: string; status: number };
 }

@@ -1,8 +1,7 @@
-import { expect, test, vi } from 'vitest';
+import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
-import PageHome from './Home';
+import CharactersList from './List';
 import type { TCharacter, TResponse } from '~/api/types';
-import stateManager from '~/entities/state';
 
 const character: TCharacter = {
   id: 1,
@@ -39,21 +38,25 @@ const character: TCharacter = {
   createdAt: 'date',
   updatedAt: 'date',
 };
-stateManager.characters = [character];
-const state = { to: 'none' };
+const results: TCharacter[] = Array.from({ length: 6 }, (_, i) => ({
+  ...character,
+  id: i + 1,
+  documentId: `d00${i + 1}`,
+}));
 
 const response: TResponse<TCharacter[]> = {
-  data: [character],
+  data: results,
   meta: {
     pagination: {
       page: 1,
-      pageSize: 10,
-      pageCount: 1,
-      total: 1,
+      pageSize: 6,
+      pageCount: 2,
+      total: 12,
     },
   },
 };
 
+const state = { to: 'none' };
 vi.mock('react-router', () => ({
   useNavigate: () => (to: string) => {
     state.to = to;
@@ -61,16 +64,28 @@ vi.mock('react-router', () => ({
   Outlet: () => <div>Outlet</div>,
   useParams: () => ({ id: 1 }),
   useSearchParams: () => [{ get: () => '' }],
+  useContext: () => ({ query: '' }),
 }));
 
 vi.mock('~/api/request', () => ({
   default: { characters: () => Promise.resolve(response) },
 }));
 
-test('PageHome component', async () => {
-  const { container } = render(<PageHome />);
-  await act(async () => {
-    const sections = container.querySelectorAll('section');
-    expect(sections.length).toBe(2);
+describe('CharactersList component', async () => {
+  it('component must render the specified number of cards', async () => {
+    const result = await act(async () => render(<CharactersList />));
+    await act(async () => {
+      const cards = result.container.querySelectorAll('a');
+      expect(cards.length).toBe(6);
+    });
+  });
+
+  it('component must update URL query parameter when page changes', async () => {
+    const result = await act(async () => render(<CharactersList />));
+    await act(async () => {
+      const buttons = result.getAllByRole('button');
+      buttons[buttons.length - 1].click();
+      expect(state.to).toBe('/?page=2');
+    });
   });
 });

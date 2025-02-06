@@ -6,6 +6,7 @@ import { ContextProvider } from '~/entities/context.tsx';
 
 const character: TCharacter = {
   id: 1,
+  documentId: 'd001',
   name: 'name',
   occupation: 'occupation',
   gender: { title: 'gender' },

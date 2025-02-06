@@ -11,8 +11,8 @@ interface CardCharacterProps {
   small?: boolean;
 }
 
-export function CardCharacter({ character, small }: CardCharacterProps) {
-  const { id, name, gender, species, occupation, desc, cover } = character;
+export default function CardCharacter({ character, small }: CardCharacterProps) {
+  const { documentId, name, gender, species, occupation, desc, cover } = character;
   const navigate = useNavigate();
   const coverSrc = `${MEDIA_URL}${small ? cover.formats.thumbnail.url : cover.url}`;
 
@@ -20,14 +20,14 @@ export function CardCharacter({ character, small }: CardCharacterProps) {
     e.preventDefault();
     if (small) {
       e.stopPropagation();
-      navigate(`/character/${character.id}`);
+      navigate(`/details/${documentId}`);
     }
   };
 
   return (
     <a
       className={`${small ? styles.card_small : styles.card} frame ${small ? 'interactive' : ''}`}
-      href={`/character/${id}`}
+      href={`/details/${documentId}`}
       onClick={handleNavigate}>
       <img className={styles.card__cover} src={coverSrc} alt="cover" />
       <h3>{name}</h3>

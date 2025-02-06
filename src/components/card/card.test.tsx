@@ -1,10 +1,11 @@
 import { expect, describe, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
-import { CardCharacter } from './Card';
+import CardCharacter from './Card';
 import type { TCharacter } from '~/api/types';
 
 const character: TCharacter = {
   id: 1,
+  documentId: 'd001',
   name: 'name',
   occupation: 'occupation',
   gender: { title: 'gender' },
@@ -55,7 +56,7 @@ describe('CardCharacter component', async () => {
     expect(getByText('gender')).toBeDefined();
     expect(getByText('species')).toBeDefined();
     container.querySelector('a')?.click();
-    expect(state.to).toBe('/character/1');
+    expect(state.to).toBe('/details/d001');
   });
 
   it('Card details', async () => {

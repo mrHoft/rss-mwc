@@ -1,6 +1,6 @@
-import { expect, test, vi } from 'vitest';
+import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
-import PageHome from './Home';
+import PageDetails from './Details';
 import type { TCharacter, TResponse } from '~/api/types';
 import stateManager from '~/entities/state';
 
@@ -42,35 +42,42 @@ const character: TCharacter = {
 stateManager.characters = [character];
 const state = { to: 'none' };
 
-const response: TResponse<TCharacter[]> = {
-  data: [character],
-  meta: {
-    pagination: {
-      page: 1,
-      pageSize: 10,
-      pageCount: 1,
-      total: 1,
-    },
-  },
-};
-
 vi.mock('react-router', () => ({
   useNavigate: () => (to: string) => {
     state.to = to;
   },
-  Outlet: () => <div>Outlet</div>,
   useParams: () => ({ id: 1 }),
-  useSearchParams: () => [{ get: () => '' }],
 }));
+
+const response: TResponse<TCharacter> = {
+  data: character,
+};
 
 vi.mock('~/api/request', () => ({
-  default: { characters: () => Promise.resolve(response) },
+  default: { character: () => Promise.resolve(response) },
 }));
 
-test('PageHome component', async () => {
-  const { container } = render(<PageHome />);
-  await act(async () => {
-    const sections = container.querySelectorAll('section');
-    expect(sections.length).toBe(2);
+describe('PageDetails component', async () => {
+  it('loading indicator must be displayed while fetching data', async () => {
+    const { getByTestId } = render(<PageDetails />);
+    await act(async () => {
+      expect(getByTestId('loader')).toBeDefined();
+    });
+  });
+
+  it('component correctly displays the detailed card data', async () => {
+    const { getByText } = await act(async () => render(<PageDetails />));
+    await act(async () => {
+      expect(getByText('John')).toBeDefined();
+    });
+  });
+
+  it('clicking the close button hides the component', async () => {
+    const { container, getByTestId } = await act(async () => render(<PageDetails />));
+    await act(async () => {
+      getByTestId('close').click();
+      expect(state.to).toBe('/');
+      expect(container.children.length).toBe(1);
+    });
   });
 });
