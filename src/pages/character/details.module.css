@@ -1,0 +1,29 @@
+.details {
+  position: relative;
+  min-width: 160px;
+  min-height: 160px;
+}
+
+.details__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  box-sizing: border-box;
+  width: 2rem;
+  height: 2rem;
+  background-image: url(/icons/cross.svg);
+  background-color: transparent;
+  background-position: center;
+  background-size: 1.5rem 1.5rem;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.3s linear;
+  filter: invert(var(--color-scheme));
+  pointer-events: all;
+  z-index: 1;
+
+  &:hover {
+    opacity: 0.65;
+  }
+}
