@@ -2,7 +2,6 @@ import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import PageDetails from './Details';
 import type { TCharacter, TResponse } from '~/api/types';
-import stateManager from '~/entities/state';
 
 const character: TCharacter = {
   id: 1,
@@ -39,7 +38,6 @@ const character: TCharacter = {
   createdAt: 'date',
   updatedAt: 'date',
 };
-stateManager.characters = [character];
 const state = { to: 'none' };
 
 vi.mock('react-router', () => ({

@@ -1,7 +1,10 @@
 import React from 'react';
 import { Context } from '~/entities/context';
 import { TCharacter } from '~/api/types';
-import CardCharacter from '../card/Card';
+import CardCharacter from '~/components/card/Card';
+import { useSelector, useDispatch } from 'react-redux';
+import type { TRootState, TAppDispatch } from '~/entities/store/store';
+import { cardCheck } from '~/entities/store/selections';
 import Button from '~/components/button/Button';
 
 import styles from './results.module.css';
@@ -13,6 +16,8 @@ interface ResultsProps {
 
 export default function SearchResults({ results, loading }: ResultsProps) {
   const { query, setSearch } = React.useContext(Context);
+  const { data: selections } = useSelector((state: TRootState) => state.selections);
+  const dispatch = useDispatch<TAppDispatch>();
 
   if (!results.length && !loading) {
     return (
@@ -28,10 +33,20 @@ export default function SearchResults({ results, loading }: ResultsProps) {
     );
   }
 
+  const handleCheck = (id: number, value: boolean) => {
+    dispatch(cardCheck({ id, value }));
+  };
+
   return (
     <div className={styles.cards}>
       {results.map((item) => (
-        <CardCharacter key={item.id} character={item} small />
+        <CardCharacter
+          key={item.id}
+          character={item}
+          checked={selections.includes(item.id)}
+          onCheck={handleCheck}
+          small
+        />
       ))}
     </div>
   );

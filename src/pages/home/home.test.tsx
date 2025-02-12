@@ -2,7 +2,6 @@ import { expect, test, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import PageHome from './Home';
 import type { TCharacter, TResponse } from '~/api/types';
-import stateManager from '~/entities/state';
 
 const character: TCharacter = {
   id: 1,
@@ -39,7 +38,6 @@ const character: TCharacter = {
   createdAt: 'date',
   updatedAt: 'date',
 };
-stateManager.characters = [character];
 const state = { to: 'none' };
 
 const response: TResponse<TCharacter[]> = {

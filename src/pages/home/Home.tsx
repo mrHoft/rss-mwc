@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router';
-import CharactersList from '~/pages/character/List';
+import CharactersList from '~/pages/list/List';
 
 import styles from './page.module.css';
 

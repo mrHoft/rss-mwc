@@ -9,9 +9,11 @@ const MEDIA_URL = (import.meta.env.VITE_API_URL ?? '') as string;
 interface CardCharacterProps {
   character: TCharacter;
   small?: boolean;
+  checked?: boolean;
+  onCheck?: (id: number, value: boolean) => void;
 }
 
-export default function CardCharacter({ character, small }: CardCharacterProps) {
+export default function CardCharacter({ character, small, checked, onCheck }: CardCharacterProps) {
   const { documentId, name, gender, species, occupation, desc, cover } = character;
   const navigate = useNavigate();
   const coverSrc = `${MEDIA_URL}${small ? cover.formats.thumbnail.url : cover.url}`;
@@ -24,11 +26,16 @@ export default function CardCharacter({ character, small }: CardCharacterProps) 
     }
   };
 
+  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (onCheck) onCheck(character.id, e.target.checked);
+  };
+
   return (
     <a
       className={`${small ? styles.card_small : styles.card} frame ${small ? 'interactive' : ''}`}
       href={`/details/${documentId}`}
       onClick={handleNavigate}>
+      {small && <input type="checkbox" checked={checked} onChange={handleCheck} onClick={(e) => e.stopPropagation()} />}
       <img className={styles.card__cover} src={coverSrc} alt="cover" />
       <h3>{name}</h3>
       <div className={styles.card__info}>
