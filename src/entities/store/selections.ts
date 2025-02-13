@@ -24,7 +24,10 @@ export const selectionsSlice = createSlice({
         state.data = state.data.filter((id) => id !== action.payload.id);
       }
     },
+    uncheckAll: (state) => {
+      state.data = [];
+    },
   },
 });
 
-export const { cardCheck } = selectionsSlice.actions;
+export const { cardCheck, uncheckAll } = selectionsSlice.actions;

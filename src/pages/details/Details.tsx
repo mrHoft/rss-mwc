@@ -15,7 +15,6 @@ const PageDetails: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { searchParams } = React.useContext(Context);
-  console.log(available);
 
   const handleClose = () => {
     const params = new URLSearchParams(searchParams).toString();
@@ -25,7 +24,7 @@ const PageDetails: React.FC = () => {
   React.useEffect(() => {
     const item = available.find((item) => item.documentId === id);
     setCharacter(item ?? null);
-  }, [id]);
+  }, [id, available]);
 
   React.useEffect(() => {
     const callback = (e: MouseEvent) => {
