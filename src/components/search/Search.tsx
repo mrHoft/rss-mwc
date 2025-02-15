@@ -1,10 +1,12 @@
 import React from 'react';
-import { Context } from '~/entities/context';
+import { useSearchParams } from 'react-router';
+import useStorage from '~/entities/useStorage';
 
 import styles from './search.module.css';
 
 export default function Search() {
-  const { query, setSearch } = React.useContext(Context);
+  const { getLastSearch, setLastSearch } = useStorage();
+  const [searchParams, setSearchParams] = useSearchParams();
   const ref = React.useRef<HTMLInputElement>(null);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,19 +15,33 @@ export default function Search() {
 
   const handleClear = () => {
     if (ref.current) ref.current.value = '';
-    setSearch('');
+    setSearchParams({});
+    setLastSearch('');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const value = String(form.get('query'));
-    setSearch(value);
+    setSearchParams({ search: value });
+    setLastSearch(value);
   };
 
   React.useEffect(() => {
-    if (ref.current) ref.current.value = query ?? '';
-  }, [query]);
+    const query = searchParams.get('search');
+    if (ref.current && query) ref.current.value = query;
+  }, [searchParams.get('search')]);
+
+  React.useEffect(() => {
+    const query = getLastSearch();
+    if (ref.current && query) {
+      ref.current.value = query;
+      const page = searchParams.get('page');
+      const newParams: Record<string, string> = { search: query };
+      if (page) newParams.page = page;
+      setSearchParams(newParams);
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit} className={styles.search}>
@@ -37,7 +53,6 @@ export default function Search() {
           placeholder="search"
           autoComplete="off"
           className={styles.search__input}
-          defaultValue={query}
           onInput={handleInput}
         />
         <button type="button" className={styles.search__clear} onClick={handleClear} />
