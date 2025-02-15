@@ -1,11 +1,9 @@
 import React from 'react';
-import { Context } from '~/entities/context';
 import { TCharacter } from '~/api/types';
 import CardCharacter from '~/components/card/Card';
 import { useSelector, useDispatch } from 'react-redux';
 import type { TRootState, TAppDispatch } from '~/entities/store/store';
 import { cardCheck, uncheckAll } from '~/entities/store/selections';
-import Button from '~/components/button/Button';
 import Flyout from '~/components/flyout/flyout';
 
 import styles from './results.module.css';
@@ -15,26 +13,11 @@ interface ResultsProps {
   loading?: boolean;
 }
 
-export default function SearchResults({ results, loading }: ResultsProps) {
-  const { query, setSearch } = React.useContext(Context);
+export default function SearchResults({ results }: ResultsProps) {
   const { selected: selections } = useSelector((state: TRootState) => state.selections);
   const { available } = useSelector((state: TRootState) => state.selections);
   const dispatch = useDispatch<TAppDispatch>();
   const downloadRef = React.useRef<HTMLAnchorElement>(null);
-
-  if (!results.length && !loading) {
-    return (
-      <>
-        <div className={`${styles.nothing} frame`}>
-          <h2>{`Nothing found for "${query}".`}</h2>
-          <img src="/images/nothing.png" alt="nothing" />
-        </div>
-        <div className={styles.btns}>
-          <Button onClick={() => setSearch()}>Reset</Button>
-        </div>
-      </>
-    );
-  }
 
   const handleCheck = (id: number, value: boolean) => {
     dispatch(cardCheck({ id, value }));

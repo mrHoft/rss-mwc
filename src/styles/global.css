@@ -7,7 +7,27 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color-scheme: light dark;
+
+  --color-scheme: 0;
+  --color00: #040608;
+  --color10: #0a1a2a;
+  --color20: #1a2a3a;
+  --color30: #2a3a4a;
+  --color40: #3e4e5e;
+  --color50: #586878;
+  --color60: #728292;
+  --color70: #8d9dad;
+  --color80: #a9b9c9;
+  --color90: #b4c4e4;
+  --color100: #fff;
+  --color-accent50: #1c5d80;
+  --color-accent60: #2c7da0;
+  --color-accent80: #3596c0;
+
+  --link-color: #4c9ce2;
+  --link-color-hover: #386989;
 }
+
 .dark {
   --color-scheme: 0;
   --color00: #040608;

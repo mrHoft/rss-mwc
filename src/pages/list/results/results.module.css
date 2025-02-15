@@ -6,12 +6,6 @@
   margin-bottom: 1rem;
 }
 
-.nothing {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-}
-
 .btns {
   margin-top: 2rem;
   display: flex;

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
 import SearchResults from '~/pages/list/results/Results';
+import NothingFound from './nothing/Nothing';
 import Loader from '~/components/loader/Loader';
 import Pagination from '~/components/pagination/Pagination';
 import type { TAppDispatch } from '~/entities/store/store';
@@ -8,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { mwcApi } from '~/api/query';
 import { TCharacter } from '~/api/types';
 import { updateAvailableCharacters } from '~/entities/store/selections';
+import Message from '~/components/message/message';
 
 import styles from './list.module.css';
 
@@ -27,13 +29,14 @@ export default function CharactersList() {
     dispatch(
       mwcApi.endpoints.getCharacters.initiate({ query: searchParams.get('search') ?? '', page: nwPage + 1, pageSize })
     )
-      .then(({ data: response, isError, error }) => {
-        if (isError) console.error(error);
-        if (response) {
-          setCharacters(response.data ?? []);
-          setTotal(response.meta?.pagination.total ?? 0);
-          dispatch(updateAvailableCharacters(response.data ?? []));
-        }
+      .unwrap()
+      .then(({ data, meta }) => {
+        setCharacters(data ?? []);
+        setTotal(meta?.pagination.total ?? 0);
+        dispatch(updateAvailableCharacters(data ?? []));
+      })
+      .catch((error) => {
+        Message.show(error.data.error.message, 'error');
       })
       .finally(() => setLoading(false));
   };
@@ -61,8 +64,8 @@ export default function CharactersList() {
 
   return (
     <section className={styles.characters} aria-label="results">
-      {/* {isError && <p>{JSON.stringify(error)}</p>} */}
-      <SearchResults results={characters} loading={loading} />
+      {!characters.length && !loading && <NothingFound />}
+      <SearchResults results={characters} />
       <Pagination page={page} pageSize={pageSize} total={total} onChange={handlePageChange} />
       {loading && <Loader />}
     </section>

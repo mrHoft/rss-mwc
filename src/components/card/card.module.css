@@ -2,6 +2,9 @@
   max-width: 30rem;
   pointer-events: none;
 }
+.card_small {
+  position: relative;
+}
 
 .card__cover {
   width: 100%;
@@ -21,4 +24,12 @@
 }
 .card_small .card__desc {
   max-height: 4lh;
+}
+
+.card__checkbox {
+  position: absolute;
+  left: -0.5rem;
+  top: 1rem;
+  z-index: 1;
+  padding: 0.5rem;
 }

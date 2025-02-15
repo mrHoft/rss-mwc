@@ -1,8 +1,7 @@
 import React from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate, useSearchParams } from 'react-router';
 import { TCharacter } from '~/api/types';
 import CardCharacter from '~/components/card/Card';
-import { Context } from '~/entities/context';
 import { useSelector } from 'react-redux';
 import type { TRootState } from '~/entities/store/store';
 
@@ -14,11 +13,10 @@ const PageDetails: React.FC = () => {
   const ref = React.useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const { searchParams } = React.useContext(Context);
+  const [searchParams] = useSearchParams();
 
   const handleClose = () => {
-    const params = new URLSearchParams(searchParams).toString();
-    navigate(params ? `/?${params}` : '/');
+    navigate(`/?${searchParams.toString()}`);
   };
 
   React.useEffect(() => {
@@ -37,10 +35,15 @@ const PageDetails: React.FC = () => {
   }, []);
 
   return (
-    <div ref={ref} className={styles.details}>
+    <section ref={ref} className={styles.details}>
       <div className={styles.details__close} onClick={handleClose} data-testid="close"></div>
       {character && <CardCharacter character={character} />}
-    </div>
+      {!character && (
+        <div className="frame">
+          <h3>Character not found</h3>
+        </div>
+      )}
+    </section>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TCharacter } from '~/api/types';
-import { useNavigate } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
 
 import styles from './card.module.css';
 
@@ -15,6 +15,7 @@ interface CardCharacterProps {
 
 export default function CardCharacter({ character, small, checked, onCheck }: CardCharacterProps) {
   const { documentId, name, gender, species, occupation, desc, cover } = character;
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const coverSrc = `${MEDIA_URL}${small ? cover.formats.thumbnail.url : cover.url}`;
 
@@ -22,7 +23,7 @@ export default function CardCharacter({ character, small, checked, onCheck }: Ca
     e.preventDefault();
     if (small) {
       e.stopPropagation();
-      navigate(`/details/${documentId}`);
+      navigate(`/details/${documentId}/?${searchParams.toString()}`);
     }
   };
 
@@ -35,7 +36,11 @@ export default function CardCharacter({ character, small, checked, onCheck }: Ca
       className={`${small ? styles.card_small : styles.card} frame ${small ? 'interactive' : ''}`}
       href={`/details/${documentId}`}
       onClick={handleNavigate}>
-      {small && <input type="checkbox" checked={checked} onChange={handleCheck} onClick={(e) => e.stopPropagation()} />}
+      {small && (
+        <label className={styles.card__checkbox}>
+          <input type="checkbox" checked={checked} onChange={handleCheck} onClick={(e) => e.stopPropagation()} />
+        </label>
+      )}
       <img className={styles.card__cover} src={coverSrc} alt="cover" />
       <h3>{name}</h3>
       <div className={styles.card__info}>
