@@ -1,5 +1,6 @@
 import React from 'react';
 import Search from '../search/Search';
+import ThemeSwitcher from '../theme/Theme';
 
 import styles from './header.module.css';
 
@@ -10,7 +11,10 @@ const Header: React.FC = () => {
         <img height="100" src="/images/logo.png" alt="logo" />
         <h3>Characters</h3>
       </div>
-      <Search />
+      <div className={styles.header__right}>
+        <Search />
+        <ThemeSwitcher />
+      </div>
     </header>
   );
 };

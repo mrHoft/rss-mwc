@@ -9,6 +9,7 @@
 
 .pagination__slide,
 .pagination__btn {
+  color: var(--color100);
   min-width: 1.8rem;
   height: 1.8rem;
   background-color: var(--color10);

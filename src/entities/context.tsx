@@ -1,4 +1,8 @@
 import React, { createContext, useState } from 'react';
+import getSystemColorScheme from '~/utils/getSystemColorScheme';
+import Storage from '~/utils/storage';
+
+const storage = new Storage();
 
 type Theme = 'light' | 'dark';
 
@@ -8,12 +12,17 @@ interface ContextValue {
 }
 
 export const Context = createContext<ContextValue>({
-  theme: 'dark',
+  theme: 'light',
   setTheme: () => undefined,
 });
 
 export function ContextProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(storage.get('theme') || getSystemColorScheme());
 
-  return <Context.Provider value={{ theme, setTheme }}>{children}</Context.Provider>;
+  const handleSetTheme = (value: Theme) => {
+    storage.set('theme', value);
+    setTheme(value);
+  };
+
+  return <Context.Provider value={{ theme, setTheme: handleSetTheme }}>{children}</Context.Provider>;
 }

@@ -1,18 +1,19 @@
 import React from 'react';
+import { Context } from '~/entities/context';
+import { Routes, Route } from 'react-router';
+import { Provider } from 'react-redux';
+import { store } from './entities/store/store.ts';
 import Header from './components/header/Header.tsx';
 import Backdop from './components/backdop/Backdop';
-import { ContextProvider } from './entities/context.tsx';
-import { Routes, Route } from 'react-router';
 import PageHome from './pages/home/Home.tsx';
 import PageDetails from './pages/details/Details.tsx';
 import Page404 from './pages/404/404.tsx';
 
-import { Provider } from 'react-redux';
-import { store } from './entities/store/store.ts';
-
 const App: React.FC = () => {
+  const { theme } = React.useContext(Context);
+
   return (
-    <ContextProvider>
+    <div className={`theme ${theme}`}>
       <Header />
       <main className="main">
         <Backdop />
@@ -25,7 +26,7 @@ const App: React.FC = () => {
           </Routes>
         </Provider>
       </main>
-    </ContextProvider>
+    </div>
   );
 };
 
