@@ -23,7 +23,8 @@ export default function CardCharacter({ character, small, checked, onCheck }: Ca
     e.preventDefault();
     if (small) {
       e.stopPropagation();
-      navigate(`/details/${documentId}/?${searchParams.toString()}`);
+      const query = searchParams.toString();
+      navigate(`/details/${documentId}${query ? `/?${query}` : ''}`);
     }
   };
 

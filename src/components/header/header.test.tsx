@@ -1,6 +1,7 @@
 import { expect, test, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import Header from './Header';
+
 const state = { to: 'none' };
 
 vi.mock('react-router', () => ({

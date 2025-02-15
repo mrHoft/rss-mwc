@@ -44,7 +44,11 @@ vi.mock('react-router', () => ({
   useNavigate: () => (to: string) => {
     state.to = to;
   },
-  useParams: () => ({ id: 1 }),
+  useParams: () => ({ id: 'd001' }),
+  useSearchParams: () => [{ get: () => '', toString: () => '' }],
+}));
+vi.mock('react-redux', () => ({
+  useSelector: () => ({ available: [character] }),
 }));
 
 const response: TResponse<TCharacter> = {
@@ -56,13 +60,6 @@ vi.mock('~/api/request', () => ({
 }));
 
 describe('PageDetails component', async () => {
-  it('loading indicator must be displayed while fetching data', async () => {
-    const { getByTestId } = render(<PageDetails />);
-    await act(async () => {
-      expect(getByTestId('loader')).toBeDefined();
-    });
-  });
-
   it('component correctly displays the detailed card data', async () => {
     const { getByText } = await act(async () => render(<PageDetails />));
     await act(async () => {

@@ -56,19 +56,24 @@ const response: TResponse<TCharacter[]> = {
   },
 };
 
-const state = { to: 'none' };
+interface State {
+  to: string;
+  query: Record<string, string>;
+}
+const state: State = { to: 'none', query: { search: '', page: '0' } };
+
 vi.mock('react-router', () => ({
   useNavigate: () => (to: string) => {
     state.to = to;
   },
-  Outlet: () => <div>Outlet</div>,
-  useParams: () => ({ id: 1 }),
-  useSearchParams: () => [{ get: () => '' }],
-  useContext: () => ({ query: '' }),
+  useSearchParams: () => [{ get: () => '' }, (value: Record<string, string>) => (state.query = value)],
 }));
 
-vi.mock('~/api/request', () => ({
-  default: { characters: () => Promise.resolve(response) },
+const dispatch = () => ({ unwrap: () => Promise.resolve(response) });
+
+vi.mock('react-redux', () => ({
+  useSelector: () => ({ available: [character], selected: [] }),
+  useDispatch: () => dispatch,
 }));
 
 describe('CharactersList component', async () => {
@@ -76,7 +81,7 @@ describe('CharactersList component', async () => {
     const result = await act(async () => render(<CharactersList />));
     await act(async () => {
       const cards = result.container.querySelectorAll('a');
-      expect(cards.length).toBe(6);
+      expect(cards.length).toBe(6 + 1);
     });
   });
 
@@ -85,7 +90,7 @@ describe('CharactersList component', async () => {
     await act(async () => {
       const buttons = result.getAllByRole('button');
       buttons[buttons.length - 1].click();
-      expect(state.to).toBe('/?page=2');
+      expect(state.query.page).toBe('2');
     });
   });
 });

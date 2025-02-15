@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router';
+import { useDispatch } from 'react-redux';
+import type { TAppDispatch } from '~/entities/store/store';
 import SearchResults from '~/pages/list/results/Results';
 import NothingFound from './nothing/Nothing';
 import Loader from '~/components/loader/Loader';
 import Pagination from '~/components/pagination/Pagination';
-import type { TAppDispatch } from '~/entities/store/store';
-import { useDispatch } from 'react-redux';
 import { mwcApi } from '~/api/query';
 import { TCharacter } from '~/api/types';
 import { updateAvailableCharacters } from '~/entities/store/selections';

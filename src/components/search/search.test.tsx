@@ -1,26 +1,21 @@
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import Search from './Search';
-import { ContextProvider } from '~/entities/context.tsx';
 import Storage from '~/utils/storage';
 
 const storage = new Storage();
-const state = { to: 'none' };
+interface State {
+  query: Record<string, string>;
+}
+const state: State = { query: { search: '' } };
 
 vi.mock('react-router', () => ({
-  useNavigate: () => (to: string) => {
-    state.to = to;
-  },
-  useSearchParams: () => [{ get: () => '' }],
+  useSearchParams: () => [{ get: () => '' }, (value: Record<string, string>) => (state.query = value)],
 }));
 
 describe('Search component', async () => {
   it('must save the entered value to the local storage', async () => {
-    const { getByRole, getAllByRole } = render(
-      <ContextProvider>
-        <Search />
-      </ContextProvider>
-    );
+    const { getByRole, getAllByRole } = render(<Search />);
 
     const input = getByRole('textbox') as HTMLInputElement;
     input.value = 'abrakadabra';
@@ -31,7 +26,7 @@ describe('Search component', async () => {
         buttons[1].click();
       }
     });
-    expect(state.to).toBe('/?search=abrakadabra');
+    expect(state.query.search).toBe('abrakadabra');
     expect(storage.get<string>('lastSearch')).toBe('abrakadabra');
     act(() => {
       if (buttons[0]) {
@@ -44,13 +39,7 @@ describe('Search component', async () => {
   it('must retrieve the value from the local storage upon mounting', async () => {
     storage.set('lastSearch', 'test-string');
 
-    const { getByRole } = await act(async () =>
-      render(
-        <ContextProvider>
-          <Search />
-        </ContextProvider>
-      )
-    );
+    const { getByRole } = await act(async () => render(<Search />));
 
     const input = getByRole('textbox') as HTMLInputElement;
     expect(input.value).toBe('test-string');

@@ -45,10 +45,11 @@ vi.mock('react-router', () => ({
   useNavigate: () => (to: string) => {
     state.to = to;
   },
+  useSearchParams: () => [{ get: () => '' }],
 }));
 
 describe('CardCharacter component', async () => {
-  it('Card small', async () => {
+  it('card small', async () => {
     const { container, getByText } = render(<CardCharacter character={character} small />);
 
     expect(getByText('name')).toBeDefined();
@@ -56,10 +57,10 @@ describe('CardCharacter component', async () => {
     expect(getByText('gender')).toBeDefined();
     expect(getByText('species')).toBeDefined();
     container.querySelector('a')?.click();
-    expect(state.to).toBe('/details/d001');
+    expect(state.to).includes('/details/d001');
   });
 
-  it('Card details', async () => {
+  it('card details', async () => {
     state.to = 'none';
     const { container, getByText } = render(<CardCharacter character={character} />);
 

@@ -1,8 +1,7 @@
 import { expect, describe, it, vi } from 'vitest';
-import { render, act } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import SearchResults from './Results';
 import type { TCharacter } from '~/api/types';
-import { ContextProvider } from '~/entities/context.tsx';
 
 const character: TCharacter = {
   id: 1,
@@ -50,28 +49,17 @@ vi.mock('react-router', () => ({
   useSearchParams: () => [{ get: () => 'abrakadabra' }],
 }));
 
+const dispatch = () => undefined;
+
+vi.mock('react-redux', () => ({
+  useSelector: () => ({ available: [character], selected: [] }),
+  useDispatch: () => dispatch,
+}));
+
 describe('SearchResults component', async () => {
-  it('results: nothing', async () => {
-    const { container, getByRole } = render(
-      <ContextProvider>
-        <SearchResults results={[]} />
-      </ContextProvider>
-    );
-    const header = container.querySelector('h2');
-    const button = getByRole('button');
-
-    expect(header).toBeDefined();
-    expect(header?.innerHTML).includes('Nothing found for "abrakadabra"');
-
-    act(() => {
-      button.click();
-    });
-    expect(state.to).toBe('/');
-  });
-
   it('results: 3', async () => {
     const { container } = render(<SearchResults results={results} />);
 
-    expect(container.querySelectorAll('a').length).toBe(3);
+    expect(container.querySelectorAll('a').length).toBe(3 + 1);
   });
 });

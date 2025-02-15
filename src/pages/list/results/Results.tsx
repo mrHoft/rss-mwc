@@ -4,7 +4,7 @@ import CardCharacter from '~/components/card/Card';
 import { useSelector, useDispatch } from 'react-redux';
 import type { TRootState, TAppDispatch } from '~/entities/store/store';
 import { cardCheck, uncheckAll } from '~/entities/store/selections';
-import Flyout from '~/components/flyout/flyout';
+import Flyout from '~/components/flyout/Flyout';
 
 import styles from './results.module.css';
 

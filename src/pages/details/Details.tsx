@@ -16,7 +16,8 @@ const PageDetails: React.FC = () => {
   const [searchParams] = useSearchParams();
 
   const handleClose = () => {
-    navigate(`/?${searchParams.toString()}`);
+    const query = searchParams.toString();
+    navigate(`/${query ? `?${query}` : ''}`);
   };
 
   React.useEffect(() => {
