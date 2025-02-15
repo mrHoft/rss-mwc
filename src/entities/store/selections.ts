@@ -1,11 +1,14 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { TCharacter } from '~/api/types';
 
 interface SelectionsState {
-  data: number[];
+  selected: number[];
+  available: TCharacter[];
 }
 
 const initialState: SelectionsState = {
-  data: [],
+  selected: [],
+  available: [],
 };
 
 interface CardCheckPayload {
@@ -19,15 +22,21 @@ export const selectionsSlice = createSlice({
   reducers: {
     cardCheck: (state, action: PayloadAction<CardCheckPayload>) => {
       if (action.payload.value) {
-        state.data = [...new Set([...state.data, action.payload.id])];
+        state.selected = [...new Set([...state.selected, action.payload.id])];
       } else {
-        state.data = state.data.filter((id) => id !== action.payload.id);
+        state.selected = state.selected.filter((id) => id !== action.payload.id);
       }
     },
     uncheckAll: (state) => {
-      state.data = [];
+      state.selected = [];
+    },
+    updateAvailableCharacters: (state, action: PayloadAction<TCharacter[]>) => {
+      state.available = [
+        ...state.available.filter((item) => !action.payload.find((newOne) => newOne.id === item.id)),
+        ...action.payload,
+      ];
     },
   },
 });
 
-export const { cardCheck, uncheckAll } = selectionsSlice.actions;
+export const { cardCheck, uncheckAll, updateAvailableCharacters } = selectionsSlice.actions;

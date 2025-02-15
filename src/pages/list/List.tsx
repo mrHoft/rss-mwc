@@ -4,9 +4,11 @@ import SearchResults from '~/pages/list/results/Results';
 import Loader from '~/components/loader/Loader';
 import { Context } from '~/entities/context';
 import Pagination from '~/components/pagination/Pagination';
-import type { TRootState, TAppDispatch } from '~/entities/store/store';
-import { fetchCharacters } from '~/entities/store/characters';
-import { useSelector, useDispatch } from 'react-redux';
+import type { TAppDispatch } from '~/entities/store/store';
+import { useDispatch } from 'react-redux';
+import { mwcApi } from '~/api/query';
+import { TCharacter } from '~/api/types';
+import { updateAvailableCharacters } from '~/entities/store/selections';
 
 import styles from './list.module.css';
 
@@ -15,15 +17,25 @@ const pageSize = 6;
 export default function CharactersList() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const dispatch = useDispatch<TAppDispatch>();
-  const { current: characters, total, loading } = useSelector((state: TRootState) => state.characters);
+  const [characters, setCharacters] = React.useState<TCharacter[]>([]);
+  const [total, setTotal] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
   const [page, setPage] = React.useState((Number(searchParams.get('page')) || 1) - 1);
   const { query, setParams } = useContext(Context);
+  const dispatch = useDispatch<TAppDispatch>();
 
   const requestData = () => {
-    dispatch(fetchCharacters({ query, page: page + 1, pageSize }))
-      .unwrap()
-      .catch((err) => console.log(err));
+    setLoading(true);
+    dispatch(mwcApi.endpoints.getCharacters.initiate({ query, page: page + 1, pageSize }))
+      .then(({ data: response, isError, error }) => {
+        if (isError) console.error(error);
+        if (response) {
+          setCharacters(response.data ?? []);
+          setTotal(response.meta?.pagination.total ?? 0);
+          dispatch(updateAvailableCharacters(response.data ?? []));
+        }
+      })
+      .finally(() => setLoading(false));
   };
 
   const handlePageChange = (newPage: number) => {
@@ -39,7 +51,9 @@ export default function CharactersList() {
     requestData();
   }, [query]);
 
-  useEffect(requestData, [page]);
+  useEffect(() => {
+    requestData();
+  }, [page]);
 
   useEffect(() => {
     if (query) setParams({ search: query });
@@ -47,10 +61,10 @@ export default function CharactersList() {
 
   return (
     <section className={styles.characters} aria-label="results">
-      {/* {state.error && <p>{state.error}</p>} */}
-      <SearchResults results={characters} loading={loading === 'pending'} />
+      {/* {isError && <p>{JSON.stringify(error)}</p>} */}
+      <SearchResults results={characters} loading={loading} />
       <Pagination page={page} pageSize={pageSize} total={total} onChange={handlePageChange} />
-      {loading === 'pending' && <Loader />}
+      {loading && <Loader />}
     </section>
   );
 }

@@ -10,7 +10,7 @@ import styles from './details.module.css';
 
 const PageDetails: React.FC = () => {
   const [character, setCharacter] = React.useState<TCharacter | null>(null);
-  const { available } = useSelector((state: TRootState) => state.characters);
+  const { available } = useSelector((state: TRootState) => state.selections);
   const ref = React.useRef<HTMLDivElement>(null);
   const { id } = useParams();
   const navigate = useNavigate();

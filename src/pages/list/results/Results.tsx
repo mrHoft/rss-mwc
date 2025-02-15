@@ -17,8 +17,8 @@ interface ResultsProps {
 
 export default function SearchResults({ results, loading }: ResultsProps) {
   const { query, setSearch } = React.useContext(Context);
-  const { data: selections } = useSelector((state: TRootState) => state.selections);
-  const { available } = useSelector((state: TRootState) => state.characters);
+  const { selected: selections } = useSelector((state: TRootState) => state.selections);
+  const { available } = useSelector((state: TRootState) => state.selections);
   const dispatch = useDispatch<TAppDispatch>();
   const downloadRef = React.useRef<HTMLAnchorElement>(null);
 
