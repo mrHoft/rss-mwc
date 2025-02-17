@@ -1,5 +1,5 @@
 import { expect, describe, it, vi } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import SearchResults from './Results';
 import type { TCharacter } from '~/api/types';
 
@@ -49,17 +49,39 @@ vi.mock('react-router', () => ({
   useSearchParams: () => [{ get: () => 'abrakadabra' }],
 }));
 
+global.URL.createObjectURL = () => 'test';
+global.URL.revokeObjectURL = vi.fn();
+
 const dispatch = () => undefined;
 
 vi.mock('react-redux', () => ({
-  useSelector: () => ({ available: [character], selected: [] }),
+  useSelector: () => ({ available: [character], selected: [1, 2, 3] }),
   useDispatch: () => dispatch,
 }));
 
 describe('SearchResults component', async () => {
-  it('results: 3', async () => {
+  it('must show expected number of cards', async () => {
     const { container } = render(<SearchResults results={results} />);
+    expect(container.querySelectorAll('a').length).toBe(results.length + 1);
+  });
 
-    expect(container.querySelectorAll('a').length).toBe(3 + 1);
+  it('must show flyout component while there are selected cards', async () => {
+    const { getByTestId } = render(<SearchResults results={results} />);
+    expect(getByTestId('flyout')).toBeDefined();
+  });
+
+  it('must execute download on Download button click', async () => {
+    const { container, getByTestId } = render(<SearchResults results={results} />);
+    const flyout = getByTestId('flyout');
+    const btns = flyout.querySelectorAll('button');
+    HTMLAnchorElement.prototype.click = vi.fn();
+    act(() => {
+      btns[1].click();
+    });
+    const anchors = container.querySelectorAll('a');
+    const downloadElement = anchors[anchors.length - 1];
+    expect(downloadElement.href).contains('test');
+    expect(HTMLAnchorElement.prototype.click).toHaveBeenCalled();
+    expect(window.URL.revokeObjectURL).toHaveBeenCalled();
   });
 });

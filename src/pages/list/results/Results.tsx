@@ -14,7 +14,7 @@ interface ResultsProps {
 }
 
 export default function SearchResults({ results }: ResultsProps) {
-  const { selected: selections } = useSelector((state: TRootState) => state.selections);
+  const { selected } = useSelector((state: TRootState) => state.selections);
   const { available } = useSelector((state: TRootState) => state.selections);
   const dispatch = useDispatch<TAppDispatch>();
   const downloadRef = React.useRef<HTMLAnchorElement>(null);
@@ -28,13 +28,13 @@ export default function SearchResults({ results }: ResultsProps) {
   };
 
   const handleDownload = () => {
-    const items = available.filter((item) => selections.includes(item.id));
+    const items = available.filter((item) => selected.includes(item.id));
     const output = items
       .map((item) =>
         [item.name, item.gender.title, item.species.title, item.occupation, item.desc, item.cover.url].join(',')
       )
       .join('\n');
-    const fileName = `${selections.length}_characters.csv`;
+    const fileName = `${selected.length}_characters.csv`;
     const blob = new Blob([output], { type: 'text/plain' });
     const objectURL = URL.createObjectURL(blob);
     if (downloadRef.current) {
@@ -52,13 +52,13 @@ export default function SearchResults({ results }: ResultsProps) {
           <CardCharacter
             key={item.id}
             character={item}
-            checked={selections.includes(item.id)}
+            checked={selected.includes(item.id)}
             onCheck={handleCheck}
             small
           />
         ))}
       </div>
-      <Flyout selected={selections.length} unselect={handleUncheckAll} download={handleDownload} />
+      <Flyout selected={selected.length} unselect={handleUncheckAll} download={handleDownload} />
       <a ref={downloadRef} style={{ display: 'none' }} />
     </>
   );

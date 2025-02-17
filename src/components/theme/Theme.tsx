@@ -6,7 +6,9 @@ import styles from './theme.module.css';
 export default function ThemeSwitcher() {
   const { theme, setTheme } = React.useContext(Context);
 
-  const handleChange = ({ target: { checked } }: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.stopPropagation();
+    const { checked } = event.target;
     setTheme(checked ? 'dark' : 'light');
   };
 
