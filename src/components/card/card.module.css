@@ -1,0 +1,35 @@
+.card {
+  max-width: 30rem;
+  pointer-events: none;
+}
+.card_small {
+  position: relative;
+}
+
+.card__cover {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.card__info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0.5em;
+}
+
+.card__desc {
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.card_small .card__desc {
+  max-height: 4lh;
+}
+
+.card__checkbox {
+  position: absolute;
+  left: -0.5rem;
+  top: 1rem;
+  z-index: 1;
+  padding: 0.5rem;
+}
