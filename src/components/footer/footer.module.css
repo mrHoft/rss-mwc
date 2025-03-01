@@ -13,6 +13,7 @@
 }
 
 .footer__author {
+  color: var(--color100);
   display: flex;
   column-gap: 0.5rem;
   align-items: center;
@@ -22,6 +23,7 @@
   width: 5.4em;
   height: 2em;
   transition: opacity 0.25s linear;
+  filter: invert(var(--color-scheme));
 }
 
 @media (hover: hover) {

@@ -1,6 +1,6 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Layout from '~/components/layout';
+import Layout from '~/components/layout/layout';
 import { ContextProvider } from '~/entities/context.tsx';
 
 import '~/styles/global.css';

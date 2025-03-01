@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import SearchResults from '~/components/list/results/Results';
@@ -20,10 +20,10 @@ interface CharactersListProps {
 export default function CharactersList(props: CharactersListProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [loading, setLoading] = useState(false);
-  const [characters, setCharacters] = useState<TCharacter[]>(props.data ?? []);
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(props.total ?? 0);
+  const [loading, setLoading] = React.useState(false);
+  const [characters, setCharacters] = React.useState<TCharacter[]>(props.data ?? []);
+  const [page, setPage] = React.useState(1);
+  const [total, setTotal] = React.useState(props.total ?? 0);
 
   const handlePageChange = (newPage: number) => {
     const search = searchParams.get('search');
@@ -33,7 +33,7 @@ export default function CharactersList(props: CharactersListProps) {
     router.push(`/?${new URLSearchParams(newParams).toString()}`);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     setLoading(false);
     if (props.total) charactersState.total = props.total;
     if (props.data) charactersState.add(props.data);
