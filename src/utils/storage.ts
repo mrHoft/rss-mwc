@@ -9,9 +9,11 @@ export default class Storage {
     if (Storage._instance) return Storage._instance;
     Storage._instance = this;
 
-    const savedState = localStorage.getItem(Storage.STORE_NAME);
-    if (savedState) {
-      this._state = JSON.parse(savedState) as Record<string, unknown>;
+    if (typeof localStorage !== 'undefined') {
+      const savedState = localStorage.getItem(Storage.STORE_NAME);
+      if (savedState) {
+        this._state = JSON.parse(savedState) as Record<string, unknown>;
+      }
     }
   }
 
@@ -59,6 +61,10 @@ export default class Storage {
   };
 
   private getValue = (path: string): unknown => {
-    return path.split('.').reduce<TIndexed | undefined>((obj, key) => (obj && obj[key] !== undefined ? (obj[key] as TIndexed) : undefined), this._state);
+    return path
+      .split('.')
+      .reduce<
+        TIndexed | undefined
+      >((obj, key) => (obj && obj[key] !== undefined ? (obj[key] as TIndexed) : undefined), this._state);
   };
 }

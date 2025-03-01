@@ -3,10 +3,10 @@ import React from 'react';
 import styles from './message.module.css';
 
 type TMode = 'regular' | 'error';
-type TChildren = JSX.Element | string;
+type TChildren = React.ReactNode | string;
 interface MessageComponent {
   show: (children: TChildren, mode?: TMode) => void;
-  (): JSX.Element;
+  (): React.ReactNode;
 }
 interface MessageData {
   id: number;

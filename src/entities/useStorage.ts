@@ -1,3 +1,5 @@
+'use client';
+
 import Storage from '~/utils/storage';
 
 const storage = new Storage();

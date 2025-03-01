@@ -1,12 +1,14 @@
 import React from 'react';
-import { useSearchParams } from 'react-router';
+import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
 import useStorage from '~/entities/useStorage';
 
 import styles from './search.module.css';
 
 export default function Search() {
   const { getLastSearch, setLastSearch } = useStorage();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const ref = React.useRef<HTMLInputElement>(null);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,16 +17,16 @@ export default function Search() {
 
   const handleClear = () => {
     if (ref.current) ref.current.value = '';
-    setSearchParams({});
     setLastSearch('');
+    router.push('/');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const value = String(form.get('query'));
-    setSearchParams({ search: value });
     setLastSearch(value);
+    router.push(`/?search=${value}`);
   };
 
   React.useEffect(() => {
@@ -39,7 +41,7 @@ export default function Search() {
       const page = searchParams.get('page');
       const newParams: Record<string, string> = { search: query };
       if (page) newParams.page = page;
-      setSearchParams(newParams);
+      router.push(`/?${new URLSearchParams(newParams).toString()}`);
     }
   }, []);
 

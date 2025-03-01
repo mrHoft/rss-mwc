@@ -9,17 +9,19 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "noImplicitAny": true,
+    "composite": true,
+    "incremental": true,
     "paths": {
       "~/*": ["./src/*"]
     },
 
     /* Bundler mode */
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
+    "jsx": "preserve",
 
     /* Linting */
     "strict": true,
@@ -27,8 +29,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist", "coverage"],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "types": ["@vitest/browser/providers/playwright"]
+  "include": ["next-env.d.ts", "src", "pages"],
+  "exclude": ["node_modules", "coverage"]
 }

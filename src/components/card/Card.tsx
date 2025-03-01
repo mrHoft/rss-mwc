@@ -1,22 +1,23 @@
 import React from 'react';
-import { TCharacter } from '~/api/types';
-import { useNavigate, useSearchParams } from 'react-router';
+import type { TCharacter } from '~/api/types';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import styles from './card.module.css';
 
-const MEDIA_URL = (import.meta.env.VITE_API_URL ?? '') as string;
+const MEDIA_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
 
 interface CardCharacterProps {
   character: TCharacter;
   small?: boolean;
   checked?: boolean;
-  onCheck?: (id: number, value: boolean) => void;
+  onCheck?: (character: TCharacter) => void;
 }
 
 export default function CardCharacter({ character, small, checked, onCheck }: CardCharacterProps) {
   const { documentId, name, gender, species, occupation, desc, cover } = character;
-  const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const coverSrc = `${MEDIA_URL}${small ? cover.formats.thumbnail.url : cover.url}`;
 
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -24,12 +25,12 @@ export default function CardCharacter({ character, small, checked, onCheck }: Ca
     if (small) {
       e.stopPropagation();
       const query = searchParams.toString();
-      navigate(`/details/${documentId}${query ? `/?${query}` : ''}`);
+      router.push(`/details/${documentId}${query ? `/?${query}` : ''}`);
     }
   };
 
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (onCheck) onCheck(character.id, e.target.checked);
+  const handleCheck = () => {
+    if (onCheck) onCheck(character);
   };
 
   return (

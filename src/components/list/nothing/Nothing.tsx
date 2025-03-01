@@ -1,12 +1,21 @@
-import { useSearchParams } from 'react-router';
+import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
+import useStorage from '~/entities/useStorage';
 import Button from '~/components/button/Button';
 
 import styles from './nothing.module.css';
 
 export default function NothingFound() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { setLastSearch } = useStorage();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const query = searchParams.get('search');
   const text = query ? `Nothing found for "${query}".` : 'Nothing found.';
+
+  const handleReset = () => {
+    setLastSearch('');
+    router.push('/');
+  };
 
   return (
     <>
@@ -16,7 +25,7 @@ export default function NothingFound() {
       </div>
       {query && (
         <div className={styles.btns}>
-          <Button onClick={() => setSearchParams()}>Reset</Button>
+          <Button onClick={handleReset}>Reset</Button>
         </div>
       )}
     </>

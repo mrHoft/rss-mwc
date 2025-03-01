@@ -1,6 +1,6 @@
 import { expect, test, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
-import Page404 from './404';
+import Page404 from './Error';
 
 const state = { to: 'none' };
 
