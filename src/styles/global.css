@@ -96,7 +96,7 @@ body {
   padding: 1rem;
   box-sizing: border-box;
   width: 100%;
-  /* max-width: calc(min(100%, 46rem)); */
+  min-height: calc(100dvh - 6.5rem);
   display: flex;
   column-gap: 2rem;
   justify-content: center;

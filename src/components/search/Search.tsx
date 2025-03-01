@@ -31,8 +31,8 @@ export default function Search() {
 
   React.useEffect(() => {
     const query = searchParams.get('search');
-    if (ref.current && query) ref.current.value = query;
-  }, [searchParams.get('search')]);
+    if (ref.current) ref.current.value = query ?? '';
+  }, [searchParams]);
 
   React.useEffect(() => {
     const query = getLastSearch();
@@ -46,7 +46,7 @@ export default function Search() {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className={styles.search}>
+    <form onSubmit={handleSubmit} className={styles.search} onClick={(e) => e.stopPropagation()}>
       <div className={styles.search__field}>
         <input
           ref={ref}

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import Header from '~/components/header/Header.tsx';
+import Footer from './footer/Footer';
 import Backdop from '~/components/backdop/Backdop.tsx';
 import Message from '~/components/message/message.tsx';
 import { Context } from '~/entities/context.tsx';
@@ -20,6 +21,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <Backdop />
         {children}
       </main>
+      <Footer />
       <Message />
     </div>
   );
