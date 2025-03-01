@@ -1,3 +1,4 @@
+import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import CharactersList from './List';
@@ -62,23 +63,24 @@ interface State {
 }
 const state: State = { to: 'none', query: { search: '', page: '0' } };
 
-vi.mock('react-router', () => ({
-  useNavigate: () => (to: string) => {
-    state.to = to;
-  },
-  useSearchParams: () => [{ get: () => '' }, (value: Record<string, string>) => (state.query = value)],
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: (to: string) => {
+      state.to = to;
+      const match = to.match(/page=(\d*)/);
+      if (match) state.query.page = match[1];
+    },
+  }),
 }));
-
-const dispatch = () => ({ unwrap: () => Promise.resolve(response) });
-
-vi.mock('react-redux', () => ({
-  useSelector: () => ({ available: [character], selected: [] }),
-  useDispatch: () => dispatch,
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({ get: () => '', toString: () => '' }),
 }));
 
 describe('CharactersList component', async () => {
   it('component must render the specified number of cards', async () => {
-    const result = await act(async () => render(<CharactersList />));
+    const result = await act(async () =>
+      render(<CharactersList data={response.data} total={response.meta?.pagination.total} />)
+    );
     await act(async () => {
       const cards = result.container.querySelectorAll('a');
       expect(cards.length).toBe(6 + 1);

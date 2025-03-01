@@ -1,7 +1,9 @@
+import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import SearchResults from './Results';
 import type { TCharacter } from '~/api/types';
+import { charactersState } from '~/entities/state';
 
 const character: TCharacter = {
   id: 1,
@@ -40,26 +42,26 @@ const character: TCharacter = {
 };
 
 const results: TCharacter[] = Array.from({ length: 3 }, (_, i) => ({ ...character, id: i + 1 }));
-const state = { to: 'none' };
-
-vi.mock('react-router', () => ({
-  useNavigate: () => (to: string) => {
-    state.to = to;
-  },
-  useSearchParams: () => [{ get: () => 'abrakadabra' }],
-}));
 
 global.URL.createObjectURL = () => 'test';
 global.URL.revokeObjectURL = vi.fn();
 
-const dispatch = () => undefined;
+const state = { to: 'none' };
 
-vi.mock('react-redux', () => ({
-  useSelector: () => ({ available: [character], selected: [1, 2, 3] }),
-  useDispatch: () => dispatch,
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: (to: string) => {
+      state.to = to;
+    },
+  }),
+}));
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({ get: () => '', toString: () => '' }),
 }));
 
 describe('SearchResults component', async () => {
+  charactersState.switch(character);
+
   it('must show expected number of cards', async () => {
     const { container } = render(<SearchResults results={results} />);
     expect(container.querySelectorAll('a').length).toBe(results.length + 1);

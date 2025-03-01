@@ -1,3 +1,4 @@
+import React from 'react';
 import { expect, test } from 'vitest';
 import { render, act } from '@testing-library/react';
 import Message from './message';

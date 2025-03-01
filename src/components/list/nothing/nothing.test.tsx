@@ -1,9 +1,15 @@
+import React from 'react';
 import { expect, test, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import NothingFound from './Nothing';
 
-vi.mock('react-router', () => ({
-  useSearchParams: () => [{ get: () => 'test' }, () => undefined],
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: () => undefined,
+  }),
+}));
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({ get: () => 'test', toString: () => '' }),
 }));
 
 test('NothingFound component', async () => {

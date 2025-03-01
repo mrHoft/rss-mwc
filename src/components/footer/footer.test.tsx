@@ -1,18 +1,11 @@
-import { expect, test, vi } from 'vitest';
+import React from 'react';
+import { expect, test } from 'vitest';
 import { render } from '@testing-library/react';
-import Header from './Footer';
+import Footer from './Footer';
 
-const state = { to: 'none' };
+test('Footer component', async () => {
+  const { getAllByRole } = render(<Footer />);
 
-vi.mock('react-router', () => ({
-  useNavigate: () => (to: string) => {
-    state.to = to;
-  },
-  useSearchParams: () => [{ get: () => '' }],
-}));
-
-test('Header component', async () => {
-  const { getByText } = render(<Header />);
-
-  expect(getByText('Characters')).toBeDefined();
+  const imgs = getAllByRole('img').map((el) => el.getAttribute('alt'));
+  expect(imgs).toEqual(['avatar', 'rss']);
 });

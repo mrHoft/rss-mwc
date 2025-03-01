@@ -1,17 +1,20 @@
+import React from 'react';
 import { expect, test, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
-import Page404 from './Error';
+import PageError from './Error';
 
 const state = { to: 'none' };
 
-vi.mock('react-router', () => ({
-  useNavigate: () => (to: string) => {
-    state.to = to;
-  },
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: (to: string) => {
+      state.to = to;
+    },
+  }),
 }));
 
-test('Page404 component', async () => {
-  const { container, getByRole } = render(<Page404 />);
+test('PageError component', async () => {
+  const { container, getByRole } = render(<PageError message="No such page" status={404} />);
   const header = container.querySelector('h2');
   const button = getByRole('button');
 

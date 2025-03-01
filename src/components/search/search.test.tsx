@@ -1,3 +1,4 @@
+import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import Search from './Search';
@@ -7,10 +8,20 @@ const storage = new Storage();
 interface State {
   query: Record<string, string>;
 }
-const state: State = { query: { search: '' } };
+const state: State = { query: { search: '', page: '0' } };
 
-vi.mock('react-router', () => ({
-  useSearchParams: () => [{ get: () => '' }, (value: Record<string, string>) => (state.query = value)],
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: (to: string) => {
+      const page = to.match(/page=(\d*)/);
+      if (page) state.query.page = page[1];
+      const search = to.match(/search=(.*)/);
+      if (search) state.query.search = search[1];
+    },
+  }),
+}));
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({ get: () => '', toString: () => '' }),
 }));
 
 describe('Search component', async () => {

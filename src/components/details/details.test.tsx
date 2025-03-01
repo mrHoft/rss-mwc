@@ -1,7 +1,9 @@
+import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import PageDetails from './Details';
 import type { TCharacter, TResponse } from '~/api/types';
+import { charactersState } from '~/entities/state';
 
 const character: TCharacter = {
   id: 1,
@@ -38,17 +40,18 @@ const character: TCharacter = {
   createdAt: 'date',
   updatedAt: 'date',
 };
+
 const state = { to: 'none' };
 
-vi.mock('react-router', () => ({
-  useNavigate: () => (to: string) => {
-    state.to = to;
-  },
-  useParams: () => ({ id: 'd001' }),
-  useSearchParams: () => [{ get: () => '', toString: () => '' }],
+vi.mock('next/router', () => ({
+  useRouter: () => ({
+    push: (to: string) => {
+      state.to = to;
+    },
+  }),
 }));
-vi.mock('react-redux', () => ({
-  useSelector: () => ({ available: [character] }),
+vi.mock('next/navigation', () => ({
+  useSearchParams: () => ({ get: () => '', toString: () => '' }),
 }));
 
 const response: TResponse<TCharacter> = {
@@ -60,8 +63,10 @@ vi.mock('~/api/request', () => ({
 }));
 
 describe('PageDetails component', async () => {
+  charactersState.add([character]);
+
   it('component correctly displays the detailed card data', async () => {
-    const { getByText } = await act(async () => render(<PageDetails />));
+    const { getByText } = await act(async () => render(<PageDetails id={character.documentId} />));
     await act(async () => {
       expect(getByText('John')).toBeDefined();
     });

@@ -1,3 +1,4 @@
+import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import ThemeSwitcher from './Theme';
