@@ -51,7 +51,7 @@ const Message: MessageComponent = (() => {
         setTimeout(() => {
           if (state.set) state.set((prev) => prev.filter((item) => item.id !== id));
         }, 500);
-      }, 3000);
+      }, 5000);
     }
   };
 

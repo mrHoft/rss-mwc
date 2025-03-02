@@ -1,7 +1,9 @@
+import React from 'react';
 import type { InferGetStaticPropsType, GetServerSideProps } from 'next';
 import CharactersList from '~/components/list/List.tsx';
 import apiRequest from '~/api/request.ts';
 import type { TResponse, TCharacter } from '~/api/types';
+import PageError from '~/components/error/Error';
 import Message from '~/components/message/message.tsx';
 
 export const getServerSideProps = (async ({ query }) => {
@@ -11,10 +13,13 @@ export const getServerSideProps = (async ({ query }) => {
 }) satisfies GetServerSideProps<{ data: TResponse<TCharacter[]> }>;
 
 export default function Page({ data }: InferGetStaticPropsType<typeof getServerSideProps>) {
-  if (data.error) {
-    Message.show(data.error.message, 'error');
-    return null;
-  }
+  React.useEffect(() => {
+    if (data.error) {
+      Message.show(data.error.message, 'error');
+    }
+  }, [data.error]);
+
+  if (data.error) return <PageError message={data.error.message} status={data.error.status} />;
 
   return <CharactersList data={data.data ?? []} total={data.meta?.pagination.total ?? 0} />;
 }
