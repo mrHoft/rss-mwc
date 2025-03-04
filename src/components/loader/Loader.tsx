@@ -1,15 +1,39 @@
+'use client';
+
 import React from 'react';
 
 import styles from './loader.module.css';
 
-const Loader: React.FC<{ flat?: boolean }> = ({ flat }) => {
-  return flat ? (
-    <div className={styles.loader__spinner} style={{ zIndex: 100 }} data-testid="loader" />
-  ) : (
-    <div className={styles.loader}>
-      <div className={styles.loader__spinner} />
-    </div>
-  );
-};
+interface LoaderComponent {
+  show: () => void;
+  hide: () => void;
+  (): React.ReactNode;
+}
+const Loader: LoaderComponent = (() => {
+  const state: {
+    set: React.Dispatch<React.SetStateAction<boolean>> | null;
+  } = { set: null };
+
+  const Container = () => {
+    const [visible, setVisible] = React.useState(false);
+    state.set = setVisible;
+
+    return visible ? (
+      <div className={styles.loader}>
+        <div className={styles.loader__spinner} />
+      </div>
+    ) : null;
+  };
+
+  Container.show = () => {
+    if (state.set) state.set(true);
+  };
+
+  Container.hide = () => {
+    if (state.set) state.set(false);
+  };
+
+  return Container;
+})();
 
 export default Loader;

@@ -3,7 +3,7 @@ import { expect, test, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import NothingFound from './Nothing';
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: () => undefined,
   }),

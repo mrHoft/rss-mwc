@@ -42,7 +42,7 @@ const character: TCharacter = {
 
 const state = { to: 'none' };
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: (to: string) => {
       state.to = to;

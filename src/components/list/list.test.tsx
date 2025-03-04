@@ -63,7 +63,7 @@ interface State {
 }
 const state: State = { to: 'none', query: { search: '', page: '0' } };
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: (to: string) => {
       state.to = to;

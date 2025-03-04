@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
 import type { TCharacter } from '~/api/types';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Loader from '../loader/Loader';
 
 import styles from './card.module.css';
 
@@ -24,6 +26,7 @@ export default function CardCharacter({ character, small, checked, onCheck }: Ca
     e.preventDefault();
     if (small) {
       e.stopPropagation();
+      Loader.show();
       const query = searchParams.toString();
       router.push(`/details/${documentId}${query ? `/?${query}` : ''}`);
     }

@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
-import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import SearchResults from '~/components/list/results/Results';
 import NothingFound from './nothing/Nothing';
 import Loader from '~/components/loader/Loader';
@@ -20,7 +21,6 @@ interface CharactersListProps {
 export default function CharactersList(props: CharactersListProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [loading, setLoading] = React.useState(false);
   const [characters, setCharacters] = React.useState<TCharacter[]>(props.data ?? []);
   const [page, setPage] = React.useState(1);
   const [total, setTotal] = React.useState(props.total ?? 0);
@@ -29,12 +29,12 @@ export default function CharactersList(props: CharactersListProps) {
     const search = searchParams.get('search');
     const newParams: Record<string, string> = { page: (newPage + 1).toString() };
     if (search) newParams.search = search;
-    setLoading(true);
+    Loader.show();
     router.push(`/?${new URLSearchParams(newParams).toString()}`);
   };
 
   React.useEffect(() => {
-    setLoading(false);
+    Loader.hide();
     if (props.total) charactersState.total = props.total;
     if (props.data) charactersState.add(props.data);
     setCharacters(props.data ?? charactersState.characters.filter((item) => charactersState.current.includes(item.id)));
@@ -47,7 +47,6 @@ export default function CharactersList(props: CharactersListProps) {
       {!characters.length && <NothingFound />}
       <SearchResults results={characters} />
       <Pagination page={page - 1} pageSize={pageSize} total={total} onChange={handlePageChange} />
-      {loading && <Loader />}
     </section>
   );
 }

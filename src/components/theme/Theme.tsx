@@ -1,19 +1,21 @@
+'use client';
+
 import React from 'react';
-import { Context } from '~/entities/context';
+import { useTheme, type TThemeName } from '~/entities/useTheme';
 
 import styles from './theme.module.css';
 
 export default function ThemeSwitcher() {
-  const { theme, setTheme } = React.useContext(Context);
+  const { theme, setTheme } = useTheme();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.stopPropagation();
     const { checked } = event.target;
-    setTheme(checked ? 'dark' : 'light');
+    const newTheme = (checked ? 'dark' : 'light') as TThemeName;
+    setTheme(newTheme);
   };
 
   return (
-    <div className={styles.theme}>
+    <div className={styles.theme} onClick={(e) => e.stopPropagation()}>
       <input className={styles.theme__switcher} type="checkbox" checked={theme === 'dark'} onChange={handleChange} />
     </div>
   );

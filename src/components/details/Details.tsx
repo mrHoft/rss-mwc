@@ -1,6 +1,7 @@
+'use client';
+
 import React from 'react';
-import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { TCharacter } from '~/api/types';
 import CardCharacter from '~/components/card/Card';
 import { charactersState } from '~/entities/state';
@@ -12,11 +13,10 @@ export default function PageDetails({ id }: { id?: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [character, setCharacter] = React.useState<TCharacter | null>(null);
-  const [loading, setLoading] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
-    setLoading(true);
+    Loader.show();
     const query = searchParams.toString();
     router.push(`/${query ? `?${query}` : ''}`);
   };
@@ -31,23 +31,22 @@ export default function PageDetails({ id }: { id?: string }) {
       if (!e.target || !(e.target instanceof Element) || !ref.current) return;
       if (e.target !== ref.current && !ref.current.contains(e.target)) handleClose();
     };
-
     document.body.addEventListener('click', callback);
-    return () => document.body.removeEventListener('click', callback);
+
+    return () => {
+      document.body.removeEventListener('click', callback);
+    };
   }, []);
 
   return (
-    <>
-      <section ref={ref} className={styles.details}>
-        <div className={styles.details__close} onClick={handleClose} data-testid="close"></div>
-        {character && <CardCharacter character={character} />}
-        {!character && (
-          <div className="frame">
-            <h3>Character not found</h3>
-          </div>
-        )}
-      </section>
-      {loading && <Loader />}
-    </>
+    <section ref={ref} className={styles.details}>
+      <div className={styles.details__close} onClick={handleClose} data-testid="close"></div>
+      {character && <CardCharacter character={character} />}
+      {!character && (
+        <div className="frame">
+          <h3>Character not found</h3>
+        </div>
+      )}
+    </section>
   );
 }

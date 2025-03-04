@@ -10,7 +10,7 @@ interface State {
 }
 const state: State = { query: { search: '', page: '0' } };
 
-vi.mock('next/router', () => ({
+vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: (to: string) => {
       const page = to.match(/page=(\d*)/);
