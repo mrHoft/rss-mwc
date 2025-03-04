@@ -71,8 +71,6 @@ vi.mock('next/navigation', () => ({
       if (match) state.query.page = match[1];
     },
   }),
-}));
-vi.mock('next/navigation', () => ({
   useSearchParams: () => ({ get: () => '', toString: () => '' }),
 }));
 

@@ -7,8 +7,8 @@ test('Message component', async () => {
   const { getByText } = render(<Message />);
 
   act(() => {
-    Message.show('test message');
+    Message.show('test error message', 'error');
   });
 
-  expect(getByText('test message')).toBeDefined();
+  expect(getByText('test error message')).toBeDefined();
 });

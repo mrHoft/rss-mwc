@@ -7,8 +7,6 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({
     push: () => undefined,
   }),
-}));
-vi.mock('next/navigation', () => ({
   useSearchParams: () => ({ get: () => 'test', toString: () => '' }),
 }));
 

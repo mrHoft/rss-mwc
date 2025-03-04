@@ -11,8 +11,6 @@ vi.mock('next/navigation', () => ({
       state.to = to;
     },
   }),
-}));
-vi.mock('next/navigation', () => ({
   useSearchParams: () => ({ get: () => '', toString: () => '' }),
 }));
 
