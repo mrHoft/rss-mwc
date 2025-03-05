@@ -1,6 +1,6 @@
 import type { TResponse } from './types';
 
-const { NEXT_PUBLIC_API_URL, NEXT_PUBLIC_API_TOKEN } = process.env;
+const { VITE_API_URL, VITE_API_TOKEN } = import.meta.env;
 
 interface RequestProps {
   method: 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -16,9 +16,9 @@ class Fetcher {
       error: 'Unknown',
     };
     const headers = header ?? { 'Content-Type': 'application/json' };
-    headers.Authorization = `Bearer ${NEXT_PUBLIC_API_TOKEN}`;
+    headers.Authorization = `Bearer ${VITE_API_TOKEN}`;
 
-    return fetch(`${NEXT_PUBLIC_API_URL}/api${url}`, { method, headers, body })
+    return fetch(`${VITE_API_URL}/api${url}`, { method, headers, body })
       .then((response) => {
         info.status = response.status;
         if (Math.floor(response.status / 100) !== 2) {
@@ -43,7 +43,7 @@ class Fetcher {
   }
 
   public get = <T>(url: string): Promise<TResponse<T>> => {
-    if (!NEXT_PUBLIC_API_URL) {
+    if (!VITE_API_URL) {
       return Promise.resolve({
         error: { message: 'No API URL (.env must be defined)', name: 'No API URL', status: 500 },
       });

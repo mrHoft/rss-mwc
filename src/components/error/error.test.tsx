@@ -1,16 +1,14 @@
-import React from 'react';
 import { expect, test, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import PageError from './Error';
 
 const state = { to: 'none' };
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: (to: string) => {
-      state.to = to;
-    },
-  }),
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    state.to = to;
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 test('PageError component', async () => {

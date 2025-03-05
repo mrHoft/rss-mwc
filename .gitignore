@@ -19,6 +19,6 @@ npm-debug.log*
 *.sln
 *.sw?
 
-# next.js
-/.next/
-next-env.d.ts
+# react router
+.server
+.client

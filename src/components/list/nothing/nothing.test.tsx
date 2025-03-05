@@ -1,17 +1,23 @@
-import React from 'react';
 import { expect, test, vi } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, act } from '@testing-library/react';
 import NothingFound from './Nothing';
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: () => undefined,
-  }),
-  useSearchParams: () => ({ get: () => 'test', toString: () => '' }),
+const state = { to: 'none' };
+
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    state.to = to;
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 test('NothingFound component', async () => {
-  const { getByText } = render(<NothingFound />);
+  const { getByText, getByRole } = render(<NothingFound />);
 
   expect(getByText('Nothing found for "test".')).toBeDefined();
+
+  await act(async () => {
+    getByRole('button').click();
+    expect(state.to).toBe('/');
+  });
 });

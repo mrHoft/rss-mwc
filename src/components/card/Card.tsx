@@ -1,13 +1,11 @@
-'use client';
-
 import React from 'react';
 import type { TCharacter } from '~/api/types';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Loader from '../loader/Loader';
+import { useNavigate, useSearchParams } from 'react-router';
+import Loader from '~/components/loader/Loader';
 
 import styles from './card.module.css';
 
-const MEDIA_URL = process.env.NEXT_PUBLIC_API_URL ?? '';
+const MEDIA_URL = (import.meta.env.VITE_API_URL ?? '') as string;
 
 interface CardCharacterProps {
   character: TCharacter;
@@ -18,8 +16,8 @@ interface CardCharacterProps {
 
 export default function CardCharacter({ character, small, checked, onCheck }: CardCharacterProps) {
   const { documentId, name, gender, species, occupation, desc, cover } = character;
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const coverSrc = `${MEDIA_URL}${small ? cover.formats.thumbnail.url : cover.url}`;
 
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -28,7 +26,7 @@ export default function CardCharacter({ character, small, checked, onCheck }: Ca
       e.stopPropagation();
       Loader.show();
       const query = searchParams.toString();
-      router.push(`/details/${documentId}${query ? `/?${query}` : ''}`);
+      navigate(`/details/${documentId}${query ? `/?${query}` : ''}`);
     }
   };
 

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import Storage from '~/utils/storage';
 
@@ -8,17 +6,17 @@ export type TThemeName = 'light' | 'dark';
 const defaultTheme = 'light';
 
 export const useTheme = () => {
-  const [theme, setThemeName] = React.useState(defaultTheme);
+  const [theme, setTheme] = React.useState(defaultTheme);
 
-  const setTheme = (value: TThemeName) => {
-    setThemeName(value);
+  const changeTheme = (value: TThemeName) => {
+    setTheme(value);
     storage.set('theme', value);
     document.body.className = value;
   };
 
   React.useEffect(() => {
-    setTheme(storage.get<TThemeName>('theme') ?? defaultTheme);
+    changeTheme(storage.get<TThemeName>('theme') ?? defaultTheme);
   }, []);
 
-  return { theme, setTheme };
+  return { theme, setTheme: changeTheme };
 };

@@ -1,4 +1,3 @@
-import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import Search from './Search';
@@ -10,16 +9,14 @@ interface State {
 }
 const state: State = { query: { search: '', page: '0' } };
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: (to: string) => {
-      const page = to.match(/page=(\d*)/);
-      if (page) state.query.page = page[1];
-      const search = to.match(/search=(.*)/);
-      if (search) state.query.search = search[1];
-    },
-  }),
-  useSearchParams: () => ({ get: () => '', toString: () => '' }),
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    const page = to.match(/page=(\d*)/);
+    if (page) state.query.page = page[1];
+    const search = to.match(/search=(.*)/);
+    if (search) state.query.search = search[1];
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 describe('Search component', async () => {

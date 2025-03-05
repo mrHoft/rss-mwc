@@ -1,4 +1,4 @@
-import { TCharacter } from '~/api/types';
+import type { TCharacter } from '~/api/types';
 
 class CharactersState {
   public total: number = 0;

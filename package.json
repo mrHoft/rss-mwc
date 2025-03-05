@@ -1,34 +1,38 @@
 {
   "name": "rss-mwc",
-  "version": "0.1.2",
+  "version": "0.3.3",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "build": "react-router build",
+    "dev": "react-router dev --port 3000",
+    "start": "react-router-serve ./build/server/index.js",
+    "lint": "react-router typegen && tsc",
     "prepare": "husky install",
     "test": "vitest run --coverage"
   },
   "dependencies": {
-    "next": "^15.2.0",
+    "@react-router/node": "^7.2.0",
+    "@react-router/serve": "^7.2.0",
+    "isbot": "^5.1.17",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router": "^7.2.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@react-router/dev": "^7.2.0",
     "@testing-library/react": "^16.2.0",
-    "@types/node": "20.17.22",
-    "@types/react": "^19.0.10",
-    "@types/react-dom": "^19",
+    "@types/node": "^20",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.1",
     "@vitest/coverage-v8": "^3.0.5",
-    "eslint": "^9.19.0",
-    "eslint-config-next": "15.2.0",
     "husky": "^8.0.3",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.2",
-    "typescript": "5.7.3",
+    "react-router-devtools": "^1.1.0",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.5"
   }
 }

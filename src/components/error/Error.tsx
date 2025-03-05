@@ -1,7 +1,5 @@
-'use client';
-
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useNavigate } from 'react-router';
 import Button from '~/components/button/Button';
 
 import styles from './error.module.css';
@@ -12,7 +10,7 @@ interface PageErrorProps {
 }
 
 export default function PageError({ message, status }: PageErrorProps) {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   return (
     <div className={styles.nothing}>
@@ -21,7 +19,7 @@ export default function PageError({ message, status }: PageErrorProps) {
         <img src="/images/nothing.png" alt="nothing" />
       </div>
       <div className={styles.nothing__btns}>
-        <Button onClick={() => router.push('/')}>Go back</Button>
+        <Button onClick={() => navigate('/')}>Go back</Button>
       </div>
     </div>
   );

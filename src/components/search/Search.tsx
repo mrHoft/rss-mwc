@@ -1,15 +1,14 @@
-'use client';
-
 import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router';
+import Loader from '~/components/loader/Loader';
 import useStorage from '~/entities/useStorage';
 
 import styles from './search.module.css';
 
 export default function Search() {
   const { getLastSearch, setLastSearch } = useStorage();
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const ref = React.useRef<HTMLInputElement>(null);
 
   const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +18,8 @@ export default function Search() {
   const handleClear = () => {
     if (ref.current) ref.current.value = '';
     setLastSearch('');
-    router.push('/');
+    Loader.show();
+    navigate('/');
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,7 +27,8 @@ export default function Search() {
     const form = new FormData(event.currentTarget);
     const value = String(form.get('query'));
     setLastSearch(value);
-    router.push(`/?search=${value}`);
+    Loader.show();
+    navigate(`/?search=${value}`);
   };
 
   React.useEffect(() => {
@@ -42,7 +43,7 @@ export default function Search() {
       const page = searchParams.get('page');
       const newParams: Record<string, string> = { search: query };
       if (page) newParams.page = page;
-      router.push(`/?${new URLSearchParams(newParams).toString()}`);
+      navigate(`/?${new URLSearchParams(newParams).toString()}`);
     }
   }, []);
 

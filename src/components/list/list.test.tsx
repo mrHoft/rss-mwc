@@ -1,4 +1,3 @@
-import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import CharactersList from './List';
@@ -63,15 +62,13 @@ interface State {
 }
 const state: State = { to: 'none', query: { search: '', page: '0' } };
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: (to: string) => {
-      state.to = to;
-      const match = to.match(/page=(\d*)/);
-      if (match) state.query.page = match[1];
-    },
-  }),
-  useSearchParams: () => ({ get: () => '', toString: () => '' }),
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    state.to = to;
+    const match = to.match(/page=(\d*)/);
+    if (match) state.query.page = match[1];
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 describe('CharactersList component', async () => {
@@ -86,9 +83,11 @@ describe('CharactersList component', async () => {
   });
 
   it('component must update URL query parameter when page changes', async () => {
-    const result = await act(async () => render(<CharactersList />));
+    const { getByTestId } = render(<CharactersList data={response.data} total={response.meta?.pagination.total} />);
+    const pagination = getByTestId('pagination');
+
     await act(async () => {
-      const buttons = result.getAllByRole('button');
+      const buttons = pagination.querySelectorAll('button');
       buttons[buttons.length - 1].click();
       expect(state.query.page).toBe('2');
     });

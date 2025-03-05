@@ -1,4 +1,3 @@
-import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import CardCharacter from './Card';
@@ -42,13 +41,11 @@ const character: TCharacter = {
 
 const state = { to: 'none' };
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: (to: string) => {
-      state.to = to;
-    },
-  }),
-  useSearchParams: () => ({ get: () => '', toString: () => '' }),
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    state.to = to;
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 describe('CardCharacter component', async () => {

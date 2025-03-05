@@ -1,7 +1,4 @@
-'use client';
-
-import React from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useNavigate, useSearchParams } from 'react-router';
 import useStorage from '~/entities/useStorage';
 import Button from '~/components/button/Button';
 
@@ -9,14 +6,14 @@ import styles from './nothing.module.css';
 
 export default function NothingFound() {
   const { setLastSearch } = useStorage();
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const query = searchParams.get('search');
   const text = query ? `Nothing found for "${query}".` : 'Nothing found.';
 
   const handleReset = () => {
     setLastSearch('');
-    router.push('/');
+    navigate('/');
   };
 
   return (

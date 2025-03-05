@@ -1,17 +1,14 @@
-import React from 'react';
 import { expect, test, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import Header from './Header';
 
 const state = { to: 'none' };
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: (to: string) => {
-      state.to = to;
-    },
-  }),
-  useSearchParams: () => ({ get: () => '', toString: () => '' }),
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    state.to = to;
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 test('Header component', async () => {

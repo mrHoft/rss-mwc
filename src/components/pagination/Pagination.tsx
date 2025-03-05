@@ -36,7 +36,7 @@ const Pagination: React.FC<PaginationProps> = ({ page, total, pageSize = 10, onC
   if (total <= pageSize) return null;
 
   return (
-    <div className={styles.pagination} onClick={(e) => e.stopPropagation()}>
+    <div className={styles.pagination} onClick={(e) => e.stopPropagation()} data-testid="pagination">
       <button className={styles.pagination__slide} onClick={leftClickHandler} disabled={page === 0}>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <path d="M10.828 12L15.778 16.95L14.364 18.364L8 12L14.364 5.63599L15.778 7.04999L10.828 12Z" />

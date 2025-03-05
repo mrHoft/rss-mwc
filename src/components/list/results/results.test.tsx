@@ -1,4 +1,3 @@
-import React from 'react';
 import { expect, describe, it, vi } from 'vitest';
 import { render, act } from '@testing-library/react';
 import SearchResults from './Results';
@@ -48,13 +47,11 @@ global.URL.revokeObjectURL = vi.fn();
 
 const state = { to: 'none' };
 
-vi.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: (to: string) => {
-      state.to = to;
-    },
-  }),
-  useSearchParams: () => ({ get: () => '', toString: () => '' }),
+vi.mock('react-router', () => ({
+  useNavigate: () => (to: string) => {
+    state.to = to;
+  },
+  useSearchParams: () => [{ get: () => 'test', toString: () => '' }],
 }));
 
 describe('SearchResults component', async () => {

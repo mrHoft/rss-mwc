@@ -1,5 +1,5 @@
 import fetcher from './fetcher';
-import { TCharacter } from './types';
+import type { TCharacter } from './types';
 
 const pagination = (page = 1, pageSize = 6) => `pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
 const filter = (query?: string) => {
