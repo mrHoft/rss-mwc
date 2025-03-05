@@ -5,6 +5,7 @@ import Footer from '~/components/footer/Footer';
 import Backdop from '~/components/backdop/Backdop';
 import Message from '~/components/message/message';
 import Loader from '~/components/loader/Loader';
+import BusyCat from '~/components/busycat/BusyCat';
 
 import '~/styles/global.css';
 
@@ -26,6 +27,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <main className="main">
           <Backdop />
           {children}
+          <BusyCat />
         </main>
         <Footer />
         <Message />

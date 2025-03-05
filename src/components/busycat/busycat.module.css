@@ -1,0 +1,56 @@
+.busycat {
+  position: absolute;
+  z-index: 9;
+  right: 0;
+  bottom: 3rem;
+  left: 0;
+  height: 220px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.busycat__img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  pointer-events: all;
+}
+
+.busycat__speech {
+  position: absolute;
+  top: 4rem;
+  right: 100px;
+  filter: drop-shadow(2px 2px #0008);
+  margin: 0;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-weight: 400;
+  background: var(--color40);
+  color: var(--color100);
+  animation: show_message 0.3s forwards;
+  z-index: 1;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 1rem;
+    bottom: -0.875rem;
+    transform-origin: center;
+    transform: rotate(-135deg);
+    border-top: 1rem solid var(--color40);
+    border-left: 1rem solid transparent;
+    border-right: 1rem solid transparent;
+  }
+}
+
+@keyframes show_message {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-4rem);
+  }
+}
