@@ -6,6 +6,7 @@ import Backdop from '~/components/backdop/Backdop';
 import Message from '~/components/message/message';
 import Loader from '~/components/loader/Loader';
 import BusyCat from '~/components/busycat/BusyCat';
+import Sidebar from '~/components/sidebar/Sidebar';
 
 import '~/styles/global.css';
 
@@ -24,6 +25,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <Header />
+        <Sidebar />
         <main className="main">
           <Backdop />
           {children}
