@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import Loader from '../loader/Loader';
 
 import styles from './sidebar.module.css';
 
@@ -11,6 +12,7 @@ export default function Sidebar() {
 
   const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    Loader.show();
     const { pathname } = e.currentTarget;
     navigate(pathname);
   };

@@ -1,0 +1,32 @@
+.about {
+  margin-top: 2rem;
+}
+
+.about article {
+  padding: 0.5rem 0;
+  display: flex;
+  column-gap: 1rem;
+  justify-content: space-between;
+}
+
+.about article:not(:first-of-type) {
+  border-top: 2px solid var(--color40);
+}
+
+.about__stack {
+  list-style: disc;
+}
+.about__stack li {
+  margin-left: 2rem;
+}
+
+.about__img {
+  width: 5rem;
+  object-fit: contain;
+}
+
+.about__btns {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}

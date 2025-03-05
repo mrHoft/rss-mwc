@@ -14,4 +14,5 @@ type Params = {
   "/details/:id": {
     "id": string;
   };
+  "/about": {};
 };
