@@ -20,5 +20,6 @@ npm-debug.log*
 *.sw?
 
 # react router
+build
 .server
 .client

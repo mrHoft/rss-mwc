@@ -98,6 +98,11 @@ body {
   width: 100%;
   min-height: calc(100dvh - 6.5rem);
   display: flex;
+  justify-content: center;
+}
+
+.details {
+  display: flex;
   column-gap: 2rem;
   justify-content: center;
 }

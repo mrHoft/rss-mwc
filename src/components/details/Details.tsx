@@ -14,7 +14,6 @@ export default function PageDetails({ id }: { id?: string }) {
   const ref = React.useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
-    console.log('handleClose');
     const query = searchParams.toString();
     Loader.show();
     navigate(`/${query ? `?${query}` : ''}`);
@@ -28,7 +27,12 @@ export default function PageDetails({ id }: { id?: string }) {
   }, [id]);
 
   return (
-    <section ref={ref} className={styles.details}>
+    <section
+      ref={ref}
+      className={styles.details}
+      onClick={(e) => {
+        e.stopPropagation();
+      }}>
       <div className={styles.details__close} onClick={handleClose} data-testid="close"></div>
       {character && <CardCharacter character={character} />}
       {!character && (

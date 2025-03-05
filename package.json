@@ -1,12 +1,12 @@
 {
   "name": "rss-mwc",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "private": true,
   "type": "module",
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev --port 3000",
-    "start": "react-router-serve ./build/server/index.js",
+    "start": "export PORT=3081 && react-router-serve ./build/server/index.js",
     "lint": "react-router typegen && tsc",
     "prepare": "husky install",
     "test": "vitest run --coverage"
